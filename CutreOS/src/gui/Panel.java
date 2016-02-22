@@ -95,7 +95,7 @@ public class Panel extends javax.swing.JFrame {
         jLabel7 = new javax.swing.JLabel();
         Spinner = new javax.swing.JSpinner();
         jLabel5 = new javax.swing.JLabel();
-        jButton6 = new javax.swing.JButton();
+        AddFileButton = new javax.swing.JButton();
 
         javax.swing.GroupLayout jDialog1Layout = new javax.swing.GroupLayout(jDialog1.getContentPane());
         jDialog1.getContentPane().setLayout(jDialog1Layout);
@@ -585,11 +585,11 @@ public class Panel extends javax.swing.JFrame {
         jLabel5.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel5.setText("CPU");
 
-        jButton6.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jButton6.setText("Add File");
-        jButton6.addActionListener(new java.awt.event.ActionListener() {
+        AddFileButton.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        AddFileButton.setText("Add File");
+        AddFileButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton6ActionPerformed(evt);
+                AddFileButtonActionPerformed(evt);
             }
         });
 
@@ -619,7 +619,7 @@ public class Panel extends javax.swing.JFrame {
                 .addGap(37, 37, 37)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jButton6)
+                        .addComponent(AddFileButton)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel1)
@@ -654,7 +654,7 @@ public class Panel extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(jButton6)
+                        .addComponent(AddFileButton)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabel1)
@@ -717,7 +717,7 @@ public class Panel extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_cpuChangeAlgorithm
 
-    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+    private void AddFileButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddFileButtonActionPerformed
         //the Add file button
         int returnVal = this.fc.showOpenDialog(Panel.this);
         
@@ -738,7 +738,7 @@ public class Panel extends javax.swing.JFrame {
         }
             
         }
-    }//GEN-LAST:event_jButton6ActionPerformed
+    }//GEN-LAST:event_AddFileButtonActionPerformed
 
     private void interruptButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_interruptButtonActionPerformed
         // TODO add your handling code here:
@@ -799,6 +799,7 @@ public class Panel extends javax.swing.JFrame {
     private javax.swing.JTextField ActualTimeNameText;
     private javax.swing.JTextField ActualTimeRemainingCPUText;
     private javax.swing.JTextField ActualTimeRemainingQuantumText;
+    private javax.swing.JButton AddFileButton;
     private javax.swing.JButton CPUchangeAlgorithmButton;
     private javax.swing.JButton MemorybitsResetNURButton;
     private javax.swing.JButton MemorychangeAlgorithmButton;
@@ -810,7 +811,6 @@ public class Panel extends javax.swing.JFrame {
     private java.awt.Choice choice1;
     private javax.swing.JButton interruptButton;
     private java.awt.Choice interruptionChoice;
-    private javax.swing.JButton jButton6;
     private javax.swing.JDialog jDialog1;
     private javax.swing.JFrame jFrame1;
     private javax.swing.JFrame jFrame2;
