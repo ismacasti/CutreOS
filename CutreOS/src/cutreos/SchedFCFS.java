@@ -1,5 +1,6 @@
 package cutreos;
 
+import cutreos.Process.Status;
 import java.util.LinkedList;
 
 /**
@@ -12,8 +13,8 @@ public class SchedFCFS extends SchedAlgorithm {
     LinkedList<Process> allProcess;
     Process running;
 
-    public SchedFCFS(LinkedList<Process> allProcess) {
-        super(allProcess);
+    public SchedFCFS(LinkedList<Process> allProcess, int time) {
+        super(allProcess, time);
     }
 
     @Override
@@ -42,12 +43,25 @@ public class SchedFCFS extends SchedAlgorithm {
     }
 
     @Override
-    public void tick() {
+    public void tick(int time) {
+        this.time++;
         if (this.running.getExpected_runtime() < this.running.getRunning_time()) {
             this.running.finishProcess();
         }
+        Process earliest = null;
 
-
+        for(Process p: allProcess){
+            if (p.getCurrent() == Status.READY){
+                if (earliest == null){
+                    earliest = p;
+                }else{
+                    if (p.getArriveTime() < earliest.getArriveTime()){
+                        earliest = p;
+                    }
+                }
+            }
+        }
+        this.running = earliest;
     }
 
 

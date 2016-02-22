@@ -8,14 +8,15 @@ import java.util.LinkedList;
  */
 public abstract class SchedAlgorithm {
     LinkedList<Process> allProcess;
+    int time;
 
-    public SchedAlgorithm(LinkedList<Process> allProcess) {
+    public SchedAlgorithm(LinkedList<Process> allProcess, int time) {
         this.allProcess = allProcess;
     }
 
     abstract String getName();
 
-    abstract void tick(); //here all the scheduling happens
+    abstract void tick(int time); //here all the scheduling happens
 
     abstract public int newProcess(Process P);
 

@@ -12,8 +12,8 @@ public class SchedRoundRobin extends SchedAlgorithm {
 
     private int quantum;
 
-    public SchedRoundRobin(LinkedList<Process> allProcess) {
-        super(allProcess);
+    public SchedRoundRobin(LinkedList<Process> allProcess, int time) {
+        super(allProcess, time);
     }
 
     @Override
@@ -22,7 +22,7 @@ public class SchedRoundRobin extends SchedAlgorithm {
     }
 
     @Override
-    public void tick() {
+    public void tick(int time) {
 
     }
 

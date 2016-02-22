@@ -10,6 +10,16 @@ public class Scheduling {
     private Process running;
     private SchedAlgorithm currentSched;
     private int procCounter = 0;
+    
+    private int time = 0;
+
+    public int getTime() {
+        return time;
+    }
+
+    public int getProcCounter() {
+        return procCounter;
+    }
 
     public LinkedList<Process> getAllProcesses() {
         return allProcesses;
@@ -29,7 +39,19 @@ public class Scheduling {
     }
 
     public Scheduling() {
+        this.currentSched = new SchedFCFS(this.allProcesses, this.time);
+        
+    }
 
+    void tick() {
+        this.time++;
+        this.currentSched.tick(time);
+        this.running = currentSched.getRunning();
+        
+    }
+
+    public Process getRunning() {
+        return this.running;
     }
 
 

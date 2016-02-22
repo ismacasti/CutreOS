@@ -15,17 +15,21 @@ public class CutreOS {
         this.sched = new Scheduling();
     }
 
-    public ArrayList<String> getProcesses() {
-        LinkedList<Process> allProcesses = this.sched.getAllProcesses();
-
-        ArrayList<String> list = new ArrayList<String>();
-
-        for (Iterator<Process> i = allProcesses.iterator(); i.hasNext(); ) {
-            Process p = i.next();
-            list.add(p.getPid() + " -> " + p.getName());
-        }
-
-        return list;
+    public LinkedList<Process> getProcesses(){
+        return sched.getAllProcesses();
+    }
+    
+    public int getTime(){
+        return sched.getTime();
+    }
+    
+    public int tick(){
+        sched.tick();
+        return sched.getTime();
+    }
+    
+    public String getCurrentSched(){
+        return sched.getCurrentSched();
     }
 
     public int newProcess(String name, int arriveTime, int expectedRuntime, int status) {
@@ -46,4 +50,9 @@ public class CutreOS {
         return p.getPid();
 
     }
+
+    public Process getRunning() {
+        return sched.getRunning();
+    }
+
 }

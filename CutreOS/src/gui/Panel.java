@@ -34,6 +34,15 @@ public class Panel extends javax.swing.JFrame {
         initComponents();
     }
 
+    
+    private void updateData(){
+        cutreos.Process running = kernel.getRunning();
+        this.ActualTimeNameText.setText(running.getName());
+        this.ActualTimeArriveText.setText(Integer.toString(running.getArriveTime()));
+        this.ActualTimeAssignedCPUText.setText("Not implemented");
+        
+        
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -736,6 +745,7 @@ public class Panel extends javax.swing.JFrame {
         for(ProcessParsed p: procs){
             kernel.newProcess("Process " + Integer.toString(i), p.getArriveTime(), p.getEstimatedTime(), p.getNextState() );
         }
+        this.updateData();
             
         }
     }//GEN-LAST:event_AddFileButtonActionPerformed
