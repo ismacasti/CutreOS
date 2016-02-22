@@ -238,6 +238,16 @@
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Component id="ActualTimeAgingText" min="-2" pref="44" max="-2" attributes="0"/>
                               </Group>
+                              <Group type="102" alignment="0" attributes="0">
+                                  <Component id="label2" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace min="-2" pref="16" max="-2" attributes="0"/>
+                                  <Component id="ActualTimeArriveText" min="-2" pref="44" max="-2" attributes="0"/>
+                              </Group>
+                              <Group type="102" alignment="0" attributes="0">
+                                  <Component id="label1" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Component id="ActualTimeNameText" min="-2" pref="100" max="-2" attributes="0"/>
+                              </Group>
                           </Group>
                       </Group>
                       <Group type="102" alignment="0" attributes="0">
@@ -251,21 +261,6 @@
                           <Component id="pageExecuteChoice" min="-2" pref="132" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="tickButton" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                      <Group type="102" alignment="0" attributes="0">
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="1" attributes="0">
-                              <Group type="102" alignment="0" attributes="0">
-                                  <Component id="label2" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace min="-2" pref="16" max="-2" attributes="0"/>
-                                  <Component id="ActualTimeArriveText" min="-2" pref="44" max="-2" attributes="0"/>
-                              </Group>
-                              <Group type="102" alignment="0" attributes="0">
-                                  <Component id="label1" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="ActualTimeNameText" min="-2" pref="44" max="-2" attributes="0"/>
-                              </Group>
-                          </Group>
                       </Group>
                   </Group>
                   <EmptySpace pref="21" max="32767" attributes="0"/>
