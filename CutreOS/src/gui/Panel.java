@@ -13,6 +13,7 @@ import java.io.IOException;
 import static java.util.Collections.list;
 import java.util.LinkedList;
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 
 
 
@@ -37,9 +38,12 @@ public class Panel extends javax.swing.JFrame {
     
     private void updateData(){
         cutreos.Process running = kernel.getRunning();
-        this.ActualTimeNameText.setText(running.getName());
-        this.ActualTimeArriveText.setText(Integer.toString(running.getArriveTime()));
-        this.ActualTimeAssignedCPUText.setText("Not implemented");
+        actualTime.setText(Integer.toString(kernel.getTime()));
+        if(running == null){
+            JOptionPane.showMessageDialog(Panel.this, "no running procceses.");
+        }
+            
+            
         
         
     }
@@ -65,14 +69,13 @@ public class Panel extends javax.swing.JFrame {
         label6 = new java.awt.Label();
         label7 = new java.awt.Label();
         pageExecuteChoice = new java.awt.Choice();
-        ActualTimeNameText = new javax.swing.JTextField();
         ActualTimeArriveText = new javax.swing.JTextField();
         ActualTimeAssignedCPUText = new javax.swing.JTextField();
         ActualTimeAgingText = new javax.swing.JTextField();
         ActualTimeRemainingCPUText = new javax.swing.JTextField();
         ActualTimeRemainingQuantumText = new javax.swing.JTextField();
+        ActualTimeNameText1 = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
-        choice1 = new java.awt.Choice();
         canvas1 = new java.awt.Canvas();
         canvas3 = new java.awt.Canvas();
         jPanel2 = new javax.swing.JPanel();
@@ -105,6 +108,7 @@ public class Panel extends javax.swing.JFrame {
         Spinner = new javax.swing.JSpinner();
         jLabel5 = new javax.swing.JLabel();
         AddFileButton = new javax.swing.JButton();
+        actualTime = new java.awt.TextField();
 
         javax.swing.GroupLayout jDialog1Layout = new javax.swing.GroupLayout(jDialog1.getContentPane());
         jDialog1.getContentPane().setLayout(jDialog1Layout);
@@ -168,12 +172,6 @@ public class Panel extends javax.swing.JFrame {
 
         label7.setText("Remaining Quantum");
 
-        ActualTimeNameText.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ActualTimeNameTextActionPerformed(evt);
-            }
-        });
-
         ActualTimeArriveText.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 ActualTimeArriveTextActionPerformed(evt);
@@ -201,6 +199,12 @@ public class Panel extends javax.swing.JFrame {
         ActualTimeRemainingQuantumText.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 ActualTimeRemainingQuantumTextActionPerformed(evt);
+            }
+        });
+
+        ActualTimeNameText1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ActualTimeNameText1ActionPerformed(evt);
             }
         });
 
@@ -235,15 +239,15 @@ public class Panel extends javax.swing.JFrame {
                         .addComponent(pageExecuteChoice, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addContainerGap()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
                                 .addComponent(label2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGap(16, 16, 16)
                                 .addComponent(ActualTimeArriveText, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
                                 .addComponent(label1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(12, 12, 12)
-                                .addComponent(ActualTimeNameText, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(ActualTimeNameText1, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addContainerGap(117, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -252,7 +256,7 @@ public class Panel extends javax.swing.JFrame {
                 .addGap(27, 27, 27)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(label1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(ActualTimeNameText, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(ActualTimeNameText1, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(16, 16, 16)
@@ -285,8 +289,6 @@ public class Panel extends javax.swing.JFrame {
 
         jLabel1.setFont(new java.awt.Font("Arial Black", 0, 14)); // NOI18N
         jLabel1.setText("Actual Time");
-
-        choice1.setName(""); // NOI18N
 
         jPanel2.setBackground(new java.awt.Color(204, 204, 204));
         jPanel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
@@ -602,6 +604,12 @@ public class Panel extends javax.swing.JFrame {
             }
         });
 
+        actualTime.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                actualTimeActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -629,23 +637,48 @@ public class Panel extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(AddFileButton)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addContainerGap())
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel1)
-                        .addGap(18, 18, 18)
-                        .addComponent(choice1, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(canvas3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(114, 114, 114)
-                                .addComponent(canvas1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(53, 53, 53))))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(canvas3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(114, 114, 114)
+                                        .addComponent(canvas1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(53, 53, 53))
+                            .addGroup(layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(actualTime, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(AddFileButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(actualTime, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(145, 145, 145)
+                                        .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 8, Short.MAX_VALUE)
+                                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(376, 376, 376))))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(23, 23, 23)
                         .addComponent(jLabel3)
@@ -660,32 +693,9 @@ public class Panel extends javax.swing.JFrame {
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(293, 293, 293)
                                 .addComponent(canvas1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(AddFileButton)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel1)
-                            .addComponent(choice1, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGap(145, 145, 145)
-                                        .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(376, 376, 376)))))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addGap(376, 376, 376))
         );
-
-        choice1.getAccessibleContext().setAccessibleDescription("");
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -697,10 +707,6 @@ public class Panel extends javax.swing.JFrame {
     private void bitsReset(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bitsReset
         // TODO add your handling code here:
     }//GEN-LAST:event_bitsReset
-
-    private void ActualTimeNameTextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ActualTimeNameTextActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_ActualTimeNameTextActionPerformed
 
     private void ActualTimeArriveTextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ActualTimeArriveTextActionPerformed
         // TODO add your handling code here:
@@ -766,6 +772,14 @@ public class Panel extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_createButtom
 
+    private void ActualTimeNameText1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ActualTimeNameText1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_ActualTimeNameText1ActionPerformed
+
+    private void actualTimeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_actualTimeActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_actualTimeActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -806,7 +820,7 @@ public class Panel extends javax.swing.JFrame {
     private javax.swing.JTextField ActualTimeAgingText;
     private javax.swing.JTextField ActualTimeArriveText;
     private javax.swing.JTextField ActualTimeAssignedCPUText;
-    private javax.swing.JTextField ActualTimeNameText;
+    private javax.swing.JTextField ActualTimeNameText1;
     private javax.swing.JTextField ActualTimeRemainingCPUText;
     private javax.swing.JTextField ActualTimeRemainingQuantumText;
     private javax.swing.JButton AddFileButton;
@@ -815,10 +829,10 @@ public class Panel extends javax.swing.JFrame {
     private javax.swing.JButton MemorychangeAlgorithmButton;
     private javax.swing.JButton NewProcessCreateButton;
     private javax.swing.JSpinner Spinner;
+    private java.awt.TextField actualTime;
     private java.awt.Canvas canvas1;
     private java.awt.Canvas canvas2;
     private java.awt.Canvas canvas3;
-    private java.awt.Choice choice1;
     private javax.swing.JButton interruptButton;
     private java.awt.Choice interruptionChoice;
     private javax.swing.JDialog jDialog1;
