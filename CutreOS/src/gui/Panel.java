@@ -41,11 +41,16 @@ public class Panel extends javax.swing.JFrame {
         actualTime.setText(Integer.toString(kernel.getTime()));
         if(running == null){
             JOptionPane.showMessageDialog(Panel.this, "no running procceses.");
+        }else{
+           ActualTimeNameText.setText(running.getName());
+           ActualTimeArriveText.setText(Integer.toString(running.getArriveTime()));
+           ActualTimeAssignedCPUText.setText(Integer.toString(running.getRunning_time()));
+           ActualTimeAgingText.setText("not implemented.");
+           ActualTimeRemainingCPUText.setText(Integer.toString(running.getExpected_runtime()-running.getRunning_time()));
+           ActualTimeRemainingQuantumText.setText("0");
         }
-            
-            
-        
-        
+
+           
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -74,7 +79,7 @@ public class Panel extends javax.swing.JFrame {
         ActualTimeAgingText = new javax.swing.JTextField();
         ActualTimeRemainingCPUText = new javax.swing.JTextField();
         ActualTimeRemainingQuantumText = new javax.swing.JTextField();
-        ActualTimeNameText1 = new javax.swing.JTextField();
+        ActualTimeNameText = new javax.swing.JTextField();
         tickButton = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         canvas1 = new java.awt.Canvas();
@@ -203,9 +208,9 @@ public class Panel extends javax.swing.JFrame {
             }
         });
 
-        ActualTimeNameText1.addActionListener(new java.awt.event.ActionListener() {
+        ActualTimeNameText.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ActualTimeNameText1ActionPerformed(evt);
+                ActualTimeNameTextActionPerformed(evt);
             }
         });
 
@@ -257,7 +262,7 @@ public class Panel extends javax.swing.JFrame {
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
                                 .addComponent(label1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(ActualTimeNameText1, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                .addComponent(ActualTimeNameText, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addContainerGap(21, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -266,7 +271,7 @@ public class Panel extends javax.swing.JFrame {
                 .addGap(27, 27, 27)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(label1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(ActualTimeNameText1, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(ActualTimeNameText, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(16, 16, 16)
@@ -784,9 +789,9 @@ public class Panel extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_createButtom
 
-    private void ActualTimeNameText1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ActualTimeNameText1ActionPerformed
+    private void ActualTimeNameTextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ActualTimeNameTextActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_ActualTimeNameText1ActionPerformed
+    }//GEN-LAST:event_ActualTimeNameTextActionPerformed
 
     private void actualTimeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_actualTimeActionPerformed
         // TODO add your handling code here:
@@ -837,7 +842,7 @@ public class Panel extends javax.swing.JFrame {
     private javax.swing.JTextField ActualTimeAgingText;
     private javax.swing.JTextField ActualTimeArriveText;
     private javax.swing.JTextField ActualTimeAssignedCPUText;
-    private javax.swing.JTextField ActualTimeNameText1;
+    private javax.swing.JTextField ActualTimeNameText;
     private javax.swing.JTextField ActualTimeRemainingCPUText;
     private javax.swing.JTextField ActualTimeRemainingQuantumText;
     private javax.swing.JButton AddFileButton;
