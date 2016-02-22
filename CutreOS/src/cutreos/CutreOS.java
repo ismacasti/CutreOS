@@ -1,3 +1,5 @@
+package cutreos;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -5,6 +7,7 @@ import java.util.LinkedList;
 /**
  * Created by ismael on 2/14/16.
  */
+
 public class CutreOS {
     Scheduling sched;
 

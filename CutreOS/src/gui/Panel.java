@@ -3,7 +3,18 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+
+
 package gui;
+
+import cutreos.CutreOS;
+import java.io.File;
+import java.io.IOException;
+import static java.util.Collections.list;
+import java.util.LinkedList;
+import javax.swing.JFileChooser;
+
+
 
 /**
  *
@@ -11,10 +22,15 @@ package gui;
  */
 public class Panel extends javax.swing.JFrame {
 
+    final JFileChooser fc = new JFileChooser();
+
     /**
      * Creates new form Panel
      */
+    
+    private CutreOS kernel;
     public Panel() {
+        kernel = new CutreOS();
         initComponents();
     }
 
@@ -568,6 +584,11 @@ public class Panel extends javax.swing.JFrame {
 
         jButton6.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jButton6.setText("Add File");
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton6ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -603,7 +624,7 @@ public class Panel extends javax.swing.JFrame {
                         .addComponent(jLabel1)
                         .addGap(18, 18, 18)
                         .addComponent(choice1, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 997, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(canvas3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createSequentialGroup()
@@ -710,6 +731,29 @@ public class Panel extends javax.swing.JFrame {
     private void createButtom(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createButtom
         // TODO add your handling code here:
     }//GEN-LAST:event_createButtom
+
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+        //the Add file button
+        int returnVal = this.fc.showOpenDialog(Panel.this);
+        
+        if (returnVal == JFileChooser.APPROVE_OPTION){
+            File file = fc.getSelectedFile();
+            Parser parser = new Parser(file.getAbsolutePath());
+            LinkedList<ProcessParsed> procs = null;
+            
+            try{
+               procs = parser.parse();
+            }catch (IOException e){
+                System.out.println("Fuck");
+                System.exit(-1);
+            }
+            int i = 0;
+        for(ProcessParsed p: procs){
+            kernel.newProcess("Process " + Integer.toString(i), p.getArriveTime(), p.getEstimatedTime(), p.getNextState() );
+        }
+            
+        }
+    }//GEN-LAST:event_jButton6ActionPerformed
 
     /**
      * @param args the command line arguments
