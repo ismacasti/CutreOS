@@ -10,7 +10,6 @@ public class SchedFCFS extends SchedAlgorithm {
 
     LinkedList<Process> ready;
     LinkedList<Process> blocked;
-    LinkedList<Process> allProcess;
     Process running;
 
     public SchedFCFS(LinkedList<Process> allProcess, int time) {
@@ -45,11 +44,21 @@ public class SchedFCFS extends SchedAlgorithm {
     @Override
     public void tick(int time) {
         this.time++;
-        if (this.running.getExpected_runtime() < this.running.getRunning_time()) {
-            this.running.finishProcess();
-        }
-        Process earliest = null;
+        this.updateTimes();
 
+        if (this.running != null){
+            if (this.running.getExpected_runtime() < this.running.getRunning_time()) {
+                this.running.finishProcess();
+                this.chooseNewProcess();
+            }
+        }else{
+            this.chooseNewProcess();
+        }
+        
+    }
+
+    private void chooseNewProcess(){
+        Process earliest = null;
         for(Process p: allProcess){
             if (p.getCurrent() == Status.READY){
                 if (earliest == null){
@@ -63,7 +72,6 @@ public class SchedFCFS extends SchedAlgorithm {
         }
         this.running = earliest;
     }
-
 
     @Override
     public String getName() {

@@ -32,12 +32,17 @@ public abstract class SchedAlgorithm {
 
     abstract public Process getRunning();
 
-    private void updateTimes() {
+    void updateTimes() {
         for (Iterator<Process> i = this.allProcess.iterator(); i.hasNext(); ) {
             Process p = i.next();
+            //update history values
             switch (p.getCurrent()) {
                 case FINISHED:
                     break;//nada
+                case NEW:
+                    if(time == p.getArriveTime()){
+                        p.setCurrent(Process.Status.READY);
+                    }
                 case READY:
                     p.setReady_time(p.getReady_time() + 1);
                     break;

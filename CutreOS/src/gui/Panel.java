@@ -75,6 +75,7 @@ public class Panel extends javax.swing.JFrame {
         ActualTimeRemainingCPUText = new javax.swing.JTextField();
         ActualTimeRemainingQuantumText = new javax.swing.JTextField();
         ActualTimeNameText1 = new javax.swing.JTextField();
+        tickButton = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         canvas1 = new java.awt.Canvas();
         canvas3 = new java.awt.Canvas();
@@ -208,6 +209,13 @@ public class Panel extends javax.swing.JFrame {
             }
         });
 
+        tickButton.setText("Tick!");
+        tickButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tickButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -236,7 +244,9 @@ public class Panel extends javax.swing.JFrame {
                         .addComponent(ActualTimeRemainingQuantumText, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(74, 74, 74)
-                        .addComponent(pageExecuteChoice, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(pageExecuteChoice, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(tickButton))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -248,7 +258,7 @@ public class Panel extends javax.swing.JFrame {
                                 .addComponent(label1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(ActualTimeNameText1, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addContainerGap(117, Short.MAX_VALUE))
+                .addContainerGap(21, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -281,8 +291,10 @@ public class Panel extends javax.swing.JFrame {
                     .addComponent(label7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(ActualTimeRemainingQuantumText, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(47, 47, 47)
-                .addComponent(pageExecuteChoice, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(40, Short.MAX_VALUE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(pageExecuteChoice, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(tickButton))
+                .addContainerGap(34, Short.MAX_VALUE))
         );
 
         label7.getAccessibleContext().setAccessibleName("Quantum Restante:");
@@ -780,6 +792,11 @@ public class Panel extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_actualTimeActionPerformed
 
+    private void tickButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tickButtonActionPerformed
+        kernel.tick();
+        updateData();
+    }//GEN-LAST:event_tickButtonActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -869,5 +886,6 @@ public class Panel extends javax.swing.JFrame {
     private javax.swing.JSpinner newProcessPagesText;
     private javax.swing.JTextField newProcessTotalExecutionButton;
     private java.awt.Choice pageExecuteChoice;
+    private javax.swing.JButton tickButton;
     // End of variables declaration//GEN-END:variables
 }
