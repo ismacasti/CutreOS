@@ -70,6 +70,7 @@ public class SchedFCFS extends SchedAlgorithm {
                 }
             }
         }
+        if (earliest != null) earliest.setCurrent(Status.RUNNING);
         this.running = earliest;
     }
 
