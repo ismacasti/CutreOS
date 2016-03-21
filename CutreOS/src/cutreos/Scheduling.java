@@ -69,6 +69,9 @@ public class Scheduling {
         proc.setCurrent(Status.BLOCKED);
         proc.setBlocked_until(this.time + blocked_time);
     }
-
+    
+    public void kill(Process proc){
+        proc.setCurrent(Status.FINISHED);
+    }
 
 }

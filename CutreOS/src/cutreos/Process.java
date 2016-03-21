@@ -114,6 +114,11 @@ public class Process {
         this.blocked_until = blocked_until;
     }
 
+    public void setExpected_runtime(int expected_runtime) {
+        this.expected_runtime = expected_runtime;
+    }
+
+    
 
     
 }

@@ -52,6 +52,7 @@ public abstract class PagingAlgorithm {
     private void loadPage(Process proc, Page p) {
         p.setResident(true);
         p.setArrive_time(sched.getTime() + page_read_time);
-        sched.block(proc, page_read_time);
+        PageFaultInterrupt i = new PageFaultInterrupt();
+        i.interrupt(this.sched, proc);
     }
 }
