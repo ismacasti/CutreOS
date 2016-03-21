@@ -40,7 +40,7 @@ public abstract class SchedAlgorithm {
                     break;//nada
                 case NEW:
                     if(time == p.getArriveTime()){
-                        p.setCurrent(Process.Status.READY);
+                        p.setCurrent(p.getNext());
                     }
                     break;
                 case READY:
