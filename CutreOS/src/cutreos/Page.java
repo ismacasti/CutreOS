@@ -68,8 +68,15 @@ public class Page {
     public void setModified(boolean modified) {
         this.modified = modified;
     }
-
-
+    
+    //every 5 times the page is accessed
+    //it gets modified
+    public void accessPage(){
+        this.access_count++;
+        if (this.access_count % 5 == 0) this.modified = true;
+        
+    }
+    
     //parse the page data from a list
     public Page(LinkedList<Integer> p) {
         this.setResident(p.get(0) == 1);
