@@ -32,7 +32,7 @@ public class CutreOS {
         return sched.getCurrentSched();
     }
 
-    public int newProcess(String name, int arriveTime, int expectedRuntime, int status) throws OSisFullException {
+    public int newProcess(String name, int arriveTime, int expectedRuntime, int status, LinkedList<LinkedList> pages) throws OSisFullException {
         Process.Status s = Process.Status.NEW;
         switch (status) {
             case 1:
@@ -47,8 +47,11 @@ public class CutreOS {
 
         }
         Process p = this.sched.newProcess(name, arriveTime, expectedRuntime, s);
+        for(LinkedList<Integer> i: pages){
+            Page new_page = new Page(i);
+            p.addPage(new_page);
+        }
         return p.getPid();
-
     }
 
     public Process getRunning() {

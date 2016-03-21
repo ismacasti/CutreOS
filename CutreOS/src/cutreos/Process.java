@@ -1,5 +1,7 @@
 package cutreos;
 
+import java.util.LinkedList;
+
 /**
  * Created by ismael on 2/14/16.
  */
@@ -16,6 +18,8 @@ public class Process {
     int last_ready_time;
     Status current;
     Status next;
+    LinkedList<Page> pages;
+    
 
     public Status getNext() {
         return next;
@@ -25,8 +29,14 @@ public class Process {
         this.name = name;
         this.expected_runtime = expected_runtime;
         this.pid = pid;
+        pages = new LinkedList<>();
     }
-
+    
+    public int addPage(Page p){
+        this.pages.addLast(p);
+        //return the position in the page list
+        return this.pages.size() -1;
+    }
     public String getName() {
         return name;
     }
