@@ -17,6 +17,10 @@ public class Process {
     Status current;
     Status next;
 
+    public Status getNext() {
+        return next;
+    }
+
     public Process(String name, int expected_runtime, int pid) {
         this.name = name;
         this.expected_runtime = expected_runtime;

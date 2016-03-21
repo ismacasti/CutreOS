@@ -32,7 +32,7 @@ public class CutreOS {
         return sched.getCurrentSched();
     }
 
-    public int newProcess(String name, int arriveTime, int expectedRuntime, int status) {
+    public int newProcess(String name, int arriveTime, int expectedRuntime, int status) throws OSisFullException {
         Process.Status s = Process.Status.NEW;
         switch (status) {
             case 1:

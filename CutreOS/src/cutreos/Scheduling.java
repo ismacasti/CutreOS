@@ -29,7 +29,8 @@ public class Scheduling {
         return this.currentSched.getName();
     }
 
-    public Process newProcess(String name, int arriveTime, int expectedRuntime, Process.Status status) {
+    public Process newProcess(String name, int arriveTime, int expectedRuntime, Process.Status status) throws OSisFullException {
+        if(allProcesses.size() >= 10) throw new OSisFullException();
         Process p = new Process(name, expectedRuntime, allProcesses.size() + 1);
         p.setArriveTime(arriveTime);
         p.setCurrent(Process.Status.NEW);

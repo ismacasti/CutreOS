@@ -764,7 +764,11 @@ public class Panel extends javax.swing.JFrame {
             int i = 0;
         for(ProcessParsed p: procs){
             i++;
-            kernel.newProcess("Process " + Integer.toString(i), p.getArriveTime(), p.getEstimatedTime(), p.getNextState() );
+            try{
+                kernel.newProcess("Process " + Integer.toString(i), p.getArriveTime(), p.getEstimatedTime(), p.getNextState() );
+            }catch(cutreos.OSisFullException e){
+                JOptionPane.showMessageDialog(Panel.this, "Operating system is full!\nProcess is not allowed to enter");
+            }
         }
         this.updateData();
             
