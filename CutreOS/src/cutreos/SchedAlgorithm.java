@@ -13,6 +13,9 @@ public abstract class SchedAlgorithm {
     LinkedList<Process> allProcess;
     int time;
 
+    public SchedAlgorithm(){
+        //nothing, just for the name
+    }
     public SchedAlgorithm(LinkedList<Process> allProcess, int time) {
         this.allProcess = allProcess;
     }

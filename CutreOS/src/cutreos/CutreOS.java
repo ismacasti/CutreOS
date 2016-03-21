@@ -10,11 +10,22 @@ import java.util.LinkedList;
 
 public class CutreOS {
     Scheduling sched;
+    private LinkedList<Interrupt> interruptList;
 
     public CutreOS() {
+        this.interruptList = new LinkedList<>();
+        interruptList.add(new SigKillInterrupt());
+        interruptList.add(new SigTermSVCInterrupt());
         this.sched = new Scheduling();
     }
 
+    public LinkedList<String> getInterrupts(){
+        LinkedList<String> list = new LinkedList<>();
+        for(Interrupt i: interruptList){
+            list.add(i.getName());
+        }
+        return list;
+    }
     public LinkedList<Process> getProcesses(){
         return sched.getAllProcesses();
     }
@@ -57,5 +68,6 @@ public class CutreOS {
     public Process getRunning() {
         return sched.getRunning();
     }
+
 
 }
