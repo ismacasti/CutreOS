@@ -64,6 +64,11 @@ public class Scheduling {
     public Process getRunning() {
         return this.running;
     }
+    
+    public void block(Process proc, int blocked_time){
+        proc.setCurrent(Status.BLOCKED);
+        proc.setBlocked_until(this.time + blocked_time);
+    }
 
 
 }

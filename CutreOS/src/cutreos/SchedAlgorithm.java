@@ -1,5 +1,8 @@
 package cutreos;
 
+import static cutreos.Process.Status.BLOCKED;
+import static cutreos.Process.Status.NEW;
+import static cutreos.Process.Status.READY;
 import java.util.Iterator;
 import java.util.LinkedList;
 
@@ -16,7 +19,19 @@ public abstract class SchedAlgorithm {
 
     abstract String getName();
 
-    abstract void tick(int time); //here all the scheduling happens
+     //here all the scheduling happens
+    void tick(int time){
+        this.time++;
+        this.updateTimes();
+        
+        //we put from BLOCKED to READY process that 
+        //have finished its time in BLOCKED
+        for(Process proc: this.allProcess){
+            if(proc.current == BLOCKED && proc.getBlocked_until() == time){
+                proc.current = READY;
+            }
+        }
+    }
 
     abstract public int newProcess(Process P);
 

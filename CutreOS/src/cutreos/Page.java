@@ -71,9 +71,10 @@ public class Page {
     
     //every 5 times the page is accessed
     //it gets modified
-    public void accessPage(){
+    public void accessPage(int time){
         this.access_count++;
         if (this.access_count % 5 == 0) this.modified = true;
+        this.last_access_time = time;
         
     }
     

@@ -18,6 +18,7 @@ public class Process {
     int last_ready_time;
     Status current;
     Status next;
+    int blocked_until;
     LinkedList<Page> pages;
     
 
@@ -97,7 +98,22 @@ public class Process {
         this.ready_time = t;
     }
 
+    Iterable<Process> getPages() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
     public enum Status {
         RUNNING, BLOCKED, READY, FINISHED, NEW
     }
+
+    public int getBlocked_until() {
+        return blocked_until;
+    }
+
+    public void setBlocked_until(int blocked_until) {
+        this.blocked_until = blocked_until;
+    }
+
+
+    
 }

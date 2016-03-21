@@ -16,10 +16,42 @@
  */
 package cutreos;
 
+import java.util.LinkedList;
+
 /**
  *
  * @author ismael
  */
+
 public abstract class PagingAlgorithm {
+    private static final int page_read_time = 5;
+    LinkedList<Process> allProcesses;
+    Scheduling sched;
+
+    public PagingAlgorithm(Scheduling sched) {
+        this.allProcesses = allProcesses;
+        this.sched = sched;
+    }
     
+    public void runPage(Process proc, Page p){
+        if (p.resident) p.accessPage(sched.getTime());
+        else{
+            this.loadPage(proc, p);
+        }
+    }
+
+    @SuppressWarnings("empty-statement")
+    public void tick(){
+        Process running = sched.getRunning();
+        if (running != null){
+            for(Process proc: running.getPages()){
+                
+            }
+        }
+    }
+    private void loadPage(Process proc, Page p) {
+        p.setResident(true);
+        p.setArrive_time(sched.getTime() + page_read_time);
+        sched.block(proc, page_read_time);
+    }
 }

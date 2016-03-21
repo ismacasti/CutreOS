@@ -43,9 +43,6 @@ public class SchedFCFS extends SchedAlgorithm {
 
     @Override
     public void tick(int time) {
-        this.time++;
-        this.updateTimes();
-
         if (this.running != null){
             if (this.running.getExpected_runtime() < this.running.getRunning_time()) {
                 this.running.finishProcess();
