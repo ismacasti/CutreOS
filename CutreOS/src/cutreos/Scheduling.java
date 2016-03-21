@@ -1,5 +1,6 @@
 package cutreos;
 
+import static cutreos.Process.Status;
 import java.util.LinkedList;
 
 /**
@@ -28,9 +29,18 @@ public class Scheduling {
     public String getCurrentSched() {
         return this.currentSched.getName();
     }
+    //return the number of processes that are expected to be scheduled
+    //(all except FINISHED)
+    public int getConcurrentProcessesCount(){
+        int n = 0;
+        for(Process p: this.allProcesses){
+            if(p.getCurrent() != Status.FINISHED) n++;
+        }
+        return n;
+    }
 
     public Process newProcess(String name, int arriveTime, int expectedRuntime, Process.Status status) throws OSisFullException {
-        if(allProcesses.size() >= 10) throw new OSisFullException();
+        if(this.getConcurrentProcessesCount() >= 10) throw new OSisFullException();
         Process p = new Process(name, expectedRuntime, allProcesses.size() + 1);
         p.setArriveTime(arriveTime);
         p.setCurrent(Process.Status.NEW);
