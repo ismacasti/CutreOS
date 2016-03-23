@@ -23,9 +23,7 @@ package cutreos;
 abstract class Interrupt {
     private String name;
 
-    public String getName() {
-        return name;
-    }
+    abstract public String getName();
 
     abstract public void interrupt (Scheduling sched, Process proc);
     

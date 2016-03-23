@@ -49,8 +49,12 @@ public class Panel extends javax.swing.JFrame {
            ActualTimeRemainingCPUText.setText(Integer.toString(running.getExpected_runtime()-running.getRunning_time()));
            ActualTimeRemainingQuantumText.setText("0");
         }
-
-           
+        
+        //update the interrupt list
+        LinkedList<String> interruptList = kernel.getInterrupts();
+        for (String i: interruptList){
+            this.interruptionChoice.add(i);
+        }
     }
     /**
      * This method is called from within the constructor to initialize the form.

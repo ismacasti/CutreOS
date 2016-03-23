@@ -28,5 +28,10 @@ public class SigKillInterrupt extends Interrupt {
     public void interrupt(Scheduling sched, Process proc) {
         sched.kill(proc);
     }
+
+    @Override
+    public String getName() {
+        return this.name;
+    }
     
 }

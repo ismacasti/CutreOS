@@ -22,12 +22,17 @@ package cutreos;
  */
 public class PageFaultInterrupt extends Interrupt {
     private static final int page_read_time = 5;
-    
+    String name = "Page fault";
     //in a page fault, the process is blocked for page_read_time
 
     @Override
     public void interrupt(Scheduling sched, Process proc) {
         sched.block(proc, page_read_time);
+    }
+
+    @Override
+    public String getName() {
+        return this.name;
     }
     
 }

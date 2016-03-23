@@ -32,5 +32,10 @@ public class SigTermSVCInterrupt extends Interrupt{
     public void interrupt(Scheduling sched, Process proc) {
         proc.setExpected_runtime(proc.getRunning_time()+1);
     }
+
+    @Override
+    public String getName() {
+        return this.name;
+    }
     
 }
