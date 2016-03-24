@@ -44,6 +44,8 @@ public abstract class PagingAlgorithm {
             this.loadPage(proc, p);
         }
     }
+    
+    abstract String getName();
 
     @SuppressWarnings("empty-statement")
     public void tick(){

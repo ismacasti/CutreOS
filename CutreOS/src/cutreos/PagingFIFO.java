@@ -24,6 +24,8 @@ import java.util.LinkedList;
  */
 public class PagingFIFO extends PagingAlgorithm {
 
+    String name = "FIFO";
+    
     public PagingFIFO(Scheduling sched) {
         super(sched);
     }
@@ -44,6 +46,11 @@ public class PagingFIFO extends PagingAlgorithm {
             }
         }
         oldest.setResident(false);
+    }
+
+    @Override
+    public String getName() {
+        return this.name;
     }
 
 
