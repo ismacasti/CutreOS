@@ -28,6 +28,24 @@ public class PagingFIFO extends PagingAlgorithm {
         super(sched);
     }
 
+    
+    @Override
+    void swap(Process proc) {
+        LinkedList<Page> pages = proc.getPages();
+        Page oldest = null;
+        for(Page p: pages){
+            if (p.isResident()){
+                if(oldest == null) oldest = p;
+                else{
+                    if(p.getArrive_time() < oldest.getArrive_time()){
+                        oldest = p;
+                    }
+                }
+            }
+        }
+        oldest.setResident(false);
+    }
+
 
 
 }

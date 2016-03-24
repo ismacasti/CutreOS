@@ -25,6 +25,11 @@ import java.util.LinkedList;
 
 public abstract class PagingAlgorithm {
     private static final int page_read_time = 5;
+    //we asume a process can only have 3 pages resident
+    //in main memory
+    //if necesary, the paging algorithm will swap out a page
+    private static final int page_limit = 3;
+    
     LinkedList<Process> allProcesses;
     Scheduling sched;
 
@@ -44,15 +49,26 @@ public abstract class PagingAlgorithm {
     public void tick(){
         Process running = sched.getRunning();
         if (running != null){
-            for(Process proc: running.getPages()){
+            //for(Process proc: running.getPages()){
                 
-            }
+            //}
         }
     }
+    
     private void loadPage(Process proc, Page p) {
+        LinkedList<Page> pages = proc.getPages();
+        //check if more than page_limit pages are resident
+        int n = 0;
+        for(Page a: pages){
+            if(a.isResident()) n++;
+        }
+        if(n >= page_limit) this.swap(proc);
+        
         p.setResident(true);
         p.setArrive_time(sched.getTime() + page_read_time);
         PageFaultInterrupt i = new PageFaultInterrupt();
         i.interrupt(this.sched, proc);
     }
+
+    abstract void swap(Process proc);
 }
