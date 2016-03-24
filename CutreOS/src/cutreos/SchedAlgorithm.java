@@ -5,11 +5,14 @@ import static cutreos.Process.Status.NEW;
 import static cutreos.Process.Status.READY;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.logging.Logger;
 
 /**
  * Created by ismael on 2/15/16.
  */
 public abstract class SchedAlgorithm {
+    private final static Logger logger = Logger.getLogger("kernel.scheduling.algo"); 
+
     LinkedList<Process> allProcess;
     int time;
 

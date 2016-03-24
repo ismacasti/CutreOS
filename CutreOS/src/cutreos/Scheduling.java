@@ -2,11 +2,14 @@ package cutreos;
 
 import static cutreos.Process.Status;
 import java.util.LinkedList;
+import java.util.logging.Logger;
 
 /**
  * Created by ismael on 2/14/16.
  */
 public class Scheduling {
+    private final static Logger logger = Logger.getLogger("kernel.scheduling"); 
+
     private LinkedList<Process> allProcesses = new LinkedList<Process>();
     private Process running;
     private SchedAlgorithm currentSched;

@@ -17,6 +17,7 @@
 package cutreos;
 
 import java.util.LinkedList;
+import java.util.logging.Logger;
 
 /**
  *
@@ -24,6 +25,8 @@ import java.util.LinkedList;
  */
 
 public abstract class PagingAlgorithm {
+    private final static Logger logger = Logger.getLogger("kernel.scheduling.paging"); 
+
     private static final int page_read_time = 5;
     //we asume a process can only have 3 pages resident
     //in main memory

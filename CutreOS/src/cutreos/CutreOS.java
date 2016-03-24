@@ -3,20 +3,30 @@ package cutreos;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.logging.ConsoleHandler;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Created by ismael on 2/14/16.
  */
 
 public class CutreOS {
+    private final static Logger logger = Logger.getLogger("kernel"); 
+
     Scheduling sched;
     private LinkedList<Interrupt> interruptList;
 
     public CutreOS() {
+        //initalize logging to console
+        logger.addHandler(new ConsoleHandler());
+        
         this.interruptList = new LinkedList<>();
         interruptList.add(new SigKillInterrupt());
         interruptList.add(new SigTermSVCInterrupt());
         this.sched = new Scheduling();
+        logger.info("CutreOS kernel initiliazed");
+
     }
 
     public LinkedList<String> getInterrupts(){
@@ -44,6 +54,7 @@ public class CutreOS {
     }
 
     public int newProcess(String name, int arriveTime, int expectedRuntime, int status, LinkedList<LinkedList> pages) throws OSisFullException {
+        logger.entering(getClass().getName(), "newProcess");
         Process.Status s = Process.Status.NEW;
         switch (status) {
             case 1:
@@ -62,7 +73,9 @@ public class CutreOS {
             Page new_page = new Page(i);
             p.addPage(new_page);
         }
+        logger.exiting(getClass().getName(), "newProcess");
         return p.getPid();
+
     }
 
     public Process getRunning() {

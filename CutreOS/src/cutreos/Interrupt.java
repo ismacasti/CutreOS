@@ -16,11 +16,15 @@
  */
 package cutreos;
 
+import java.util.logging.Logger;
+
 /**
  *
  * @author ismael
  */
 abstract class Interrupt {
+    private final static Logger logger = Logger.getLogger("kernel.interrupt"); 
+
     private String name;
 
     abstract public String getName();
