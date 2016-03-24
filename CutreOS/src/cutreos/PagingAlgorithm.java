@@ -39,7 +39,10 @@ public abstract class PagingAlgorithm {
     }
     
     public void runPage(Process proc, Page p){
-        if (p.resident) p.accessPage(sched.getTime());
+        if (p.resident){
+            p.accessPage(sched.getTime());
+            p.setReferenced(true);
+        }
         else{
             this.loadPage(proc, p);
         }
