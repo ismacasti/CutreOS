@@ -98,9 +98,11 @@ public class Process {
         this.ready_time = t;
     }
 
-    Iterable<Process> getPages() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public LinkedList<Page> getPages() {
+        return pages;
     }
+
+    
 
     public enum Status {
         RUNNING, BLOCKED, READY, FINISHED, NEW
