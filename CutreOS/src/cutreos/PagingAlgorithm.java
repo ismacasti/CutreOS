@@ -35,6 +35,10 @@ public abstract class PagingAlgorithm {
     
     LinkedList<Process> allProcesses;
     Scheduling sched;
+    
+    public PagingAlgorithm(){
+        
+    }
 
     public PagingAlgorithm(Scheduling sched) {
         this.allProcesses = allProcesses;
@@ -51,7 +55,9 @@ public abstract class PagingAlgorithm {
         }
     }
     
-    abstract String getName();
+    public static String getName(){
+        return "Paging algorithm generic";
+    }
 
     @SuppressWarnings("empty-statement")
     public void tick(){

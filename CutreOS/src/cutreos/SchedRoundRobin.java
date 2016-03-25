@@ -26,8 +26,7 @@ public class SchedRoundRobin extends SchedAlgorithm {
 
     }
 
-    @Override
-    public String getName() {
+    public static String getName() {
         return "Round Robin";
     }
 

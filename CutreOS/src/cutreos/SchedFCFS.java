@@ -15,6 +15,9 @@ public class SchedFCFS extends SchedAlgorithm {
     public SchedFCFS(LinkedList<Process> allProcess, int time) {
         super(allProcess, time);
     }
+    
+    public SchedFCFS(){
+    }
 
     @Override
     public int getQuantum() {
@@ -71,11 +74,9 @@ public class SchedFCFS extends SchedAlgorithm {
         this.running = earliest;
     }
 
-    @Override
-    public String getName() {
-        return "FCFS (FIFO)";
+    static final public String getName(){
+        return "FCFS";
     }
-
 
     @Override
     public int newProcess(Process P) {

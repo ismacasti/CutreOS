@@ -16,14 +16,28 @@ public class CutreOS {
 
     Scheduling sched;
     private LinkedList<Interrupt> interruptList;
+    private LinkedList<PagingAlgorithm> pagingList;
+    private LinkedList<SchedAlgorithm> schedList;
 
     public CutreOS() {
         //initalize logging to console
-        logger.addHandler(new ConsoleHandler());
-        
+        //logger.addHandler(new ConsoleHandler());
+        //list of interrupts
         this.interruptList = new LinkedList<>();
         interruptList.add(new SigKillInterrupt());
         interruptList.add(new SigTermSVCInterrupt());
+        
+        //paging algorithms list
+        this.pagingList = new LinkedList<>();
+        pagingList.add(new PagingFIFO());
+        pagingList.add(new PagingLFU());
+        pagingList.add(new PagingLRU());
+        pagingList.add(new PagingNRU());
+        
+        //scheduling algorithm list
+        this.schedList = new LinkedList<>();
+        schedList.add(new SchedFCFS());
+        
         this.sched = new Scheduling();
         logger.info("CutreOS kernel initiliazed");
 

@@ -30,6 +30,9 @@ public class PagingFIFO extends PagingAlgorithm {
         super(sched);
     }
 
+    public PagingFIFO() {
+        super();
+    }
     
     @Override
     void swap(Process proc) {
@@ -47,10 +50,9 @@ public class PagingFIFO extends PagingAlgorithm {
         }
         oldest.setResident(false);
     }
-
-    @Override
-    public String getName() {
-        return this.name;
+    
+    public static final String getName(){
+        return "FIFO";
     }
 
 

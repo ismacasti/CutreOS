@@ -23,8 +23,9 @@ public abstract class SchedAlgorithm {
         this.allProcess = allProcess;
     }
 
-    abstract String getName();
-
+    static public String getName(){
+        return "Sched";
+    }
      //here all the scheduling happens
     void tick(int time){
         this.time++;

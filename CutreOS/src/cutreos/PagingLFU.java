@@ -28,10 +28,13 @@ public class PagingLFU extends PagingAlgorithm {
     public PagingLFU(Scheduling sched) {
         super(sched);
     }
+    
+    public PagingLFU() {
+        super();
+    }
 
-    @Override
-    String getName() {
-        return this.name;
+    public static final String getName(){
+        return "LFU";
     }
 
     @Override

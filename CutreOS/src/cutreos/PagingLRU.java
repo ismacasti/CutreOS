@@ -29,10 +29,15 @@ public class PagingLRU extends PagingAlgorithm{
     public PagingLRU(Scheduling sched) {
         super(sched);
     }
-    @Override
-    String getName() {
-        return this.name;
+    
+    public PagingLRU() {
+        super();
     }
+    
+    public static final String getName(){
+        return "LRU";
+    }
+    
     private Page getLastAccessed(Page p1, Page p2){
         if(this.sched.getTime() - p1.getLast_access_time() >= 
                 this.sched.getTime() - p2.getLast_access_time()){

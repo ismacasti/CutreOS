@@ -28,10 +28,13 @@ public class PagingNRU extends PagingAlgorithm {
     public PagingNRU(Scheduling sched) {
         super(sched);
     }
+    
+    public PagingNRU() {
+        super();
+    }
 
-    @Override
-    String getName() {
-        return this.name;
+    public static final String getName(){
+        return "NRU";
     }
     
     private int calcPoints(Page p){
