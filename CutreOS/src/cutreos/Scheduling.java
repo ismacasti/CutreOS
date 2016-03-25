@@ -2,6 +2,7 @@ package cutreos;
 
 import static cutreos.Process.Status;
 import java.util.LinkedList;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
@@ -59,9 +60,12 @@ public class Scheduling {
 
     void tick() {
         this.time++;
+        logger.info("New tick! Time = ".concat(Integer.toString(this.time)));
         this.currentSched.tick(time);
         this.running = currentSched.getRunning();
-        
+        if(this.running != null)
+            logger.info("The running process is: ".concat(this.running.getName()));
+        else logger.info("No process is running at this moment");
     }
 
     public Process getRunning() {
@@ -71,9 +75,12 @@ public class Scheduling {
     public void block(Process proc, int blocked_time){
         proc.setCurrent(Status.BLOCKED);
         proc.setBlocked_until(this.time + blocked_time);
+        logger.log(Level.INFO, "Process {0} has been blocked for {1} ticks",
+                new Object[] {proc.getName(), Integer.toString(blocked_time)});
     }
     
     public void kill(Process proc){
+        logger.log(Level.INFO, "Process {0} has been killed!", proc.getName());
         proc.setCurrent(Status.FINISHED);
     }
 
