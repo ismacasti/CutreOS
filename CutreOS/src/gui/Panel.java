@@ -39,7 +39,7 @@ public class Panel extends javax.swing.JFrame {
     
     private void updateData(){
         cutreos.Process running = kernel.getRunning();
-        actualTime.setText(Integer.toString(kernel.getTime()));
+        currentTimeText.setText(Integer.toString(kernel.getTime()));
         if(running == null){
             JOptionPane.showMessageDialog(Panel.this, "no running procceses.");
         }else{
@@ -53,8 +53,9 @@ public class Panel extends javax.swing.JFrame {
         
         //update the interrupt list
         LinkedList<String> interruptList = kernel.getInterrupts();
+        this.interruptCombo.removeAllItems();
         for (String i: interruptList){
-            this.interruptionChoice.add(i);
+            this.interruptCombo.addItem(i);
         }
     }
     /**
@@ -71,7 +72,7 @@ public class Panel extends javax.swing.JFrame {
         timePanel = new javax.swing.JPanel();
         AddFileButton = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
-        actualTime = new java.awt.TextField();
+        currentTimeText = new javax.swing.JTextField();
         currentProcessPanel = new javax.swing.JPanel();
         label1 = new java.awt.Label();
         ActualTimeNameText = new javax.swing.JTextField();
@@ -85,14 +86,14 @@ public class Panel extends javax.swing.JFrame {
         ActualTimeRemainingCPUText = new javax.swing.JTextField();
         label7 = new java.awt.Label();
         ActualTimeRemainingQuantumText = new javax.swing.JTextField();
-        pageExecuteChoice = new java.awt.Choice();
-        tickButton = new javax.swing.JButton();
+        runPageCombo = new javax.swing.JComboBox<>();
+        jLabel2 = new javax.swing.JLabel();
         centerPanel = new javax.swing.JPanel();
         pagesPanel = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         interruptPanel = new javax.swing.JPanel();
-        interruptionChoice = new java.awt.Choice();
+        interruptCombo = new javax.swing.JComboBox<>();
         interruptButton = new javax.swing.JButton();
         rightPanel = new javax.swing.JPanel();
         schedAlgoPanel = new javax.swing.JPanel();
@@ -134,28 +135,25 @@ public class Panel extends javax.swing.JFrame {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         timePanel.add(AddFileButton, gridBagConstraints);
 
         jLabel1.setFont(new java.awt.Font("Arial Black", 0, 14)); // NOI18N
-        jLabel1.setText("Actual Time");
+        jLabel1.setText("Current time:");
+        jLabel1.setToolTipText("");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         timePanel.add(jLabel1, gridBagConstraints);
 
-        actualTime.setText("0");
-        actualTime.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                actualTimeActionPerformed(evt);
-            }
-        });
+        currentTimeText.setText("0");
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        timePanel.add(actualTime, gridBagConstraints);
+        gridBagConstraints.ipadx = 20;
+        gridBagConstraints.ipady = 5;
+        timePanel.add(currentTimeText, gridBagConstraints);
 
         leftPanel.add(timePanel);
 
@@ -167,12 +165,12 @@ public class Panel extends javax.swing.JFrame {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
-        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.RELATIVE;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 0, 0, 0);
         currentProcessPanel.add(label1, gridBagConstraints);
+        label1.getAccessibleContext().setAccessibleName("");
 
-        ActualTimeNameText.setText("0");
         ActualTimeNameText.setMinimumSize(new java.awt.Dimension(40, 80));
         ActualTimeNameText.setPreferredSize(new java.awt.Dimension(40, 19));
         ActualTimeNameText.addActionListener(new java.awt.event.ActionListener() {
@@ -184,17 +182,22 @@ public class Panel extends javax.swing.JFrame {
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.ipady = 5;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 0, 0, 0);
         currentProcessPanel.add(ActualTimeNameText, gridBagConstraints);
+        ActualTimeNameText.getAccessibleContext().setAccessibleName("");
 
         label2.setText("Arrive:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
-        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.RELATIVE;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 0, 0, 0);
         currentProcessPanel.add(label2, gridBagConstraints);
+        label2.getAccessibleContext().setAccessibleName("");
 
         ActualTimeArriveText.setText("0");
         ActualTimeArriveText.setMinimumSize(new java.awt.Dimension(40, 80));
@@ -208,17 +211,22 @@ public class Panel extends javax.swing.JFrame {
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.ipady = 5;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 0, 0, 0);
         currentProcessPanel.add(ActualTimeArriveText, gridBagConstraints);
+        ActualTimeArriveText.getAccessibleContext().setAccessibleName("");
 
         label3.setText("Assigned CPU:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
-        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.RELATIVE;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 0, 0, 0);
         currentProcessPanel.add(label3, gridBagConstraints);
+        label3.getAccessibleContext().setAccessibleName("");
 
         ActualTimeAssignedCPUText.setText("0");
         ActualTimeAssignedCPUText.setMinimumSize(new java.awt.Dimension(40, 80));
@@ -232,17 +240,22 @@ public class Panel extends javax.swing.JFrame {
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 2;
         gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.ipady = 5;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 0, 0, 0);
         currentProcessPanel.add(ActualTimeAssignedCPUText, gridBagConstraints);
+        ActualTimeAssignedCPUText.getAccessibleContext().setAccessibleName("");
 
         label4.setText("Aging:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 4;
-        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.RELATIVE;
+        gridBagConstraints.gridy = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 0, 0, 0);
         currentProcessPanel.add(label4, gridBagConstraints);
+        label4.getAccessibleContext().setAccessibleName("");
 
         ActualTimeAgingText.setText("0");
         ActualTimeAgingText.setMinimumSize(new java.awt.Dimension(40, 80));
@@ -254,19 +267,24 @@ public class Panel extends javax.swing.JFrame {
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridy = 3;
         gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.ipady = 5;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 0, 0, 0);
         currentProcessPanel.add(ActualTimeAgingText, gridBagConstraints);
+        ActualTimeAgingText.getAccessibleContext().setAccessibleName("");
 
         label6.setText("Remaining CPU:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 5;
-        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.RELATIVE;
+        gridBagConstraints.gridy = 4;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 0, 0, 0);
         currentProcessPanel.add(label6, gridBagConstraints);
+        label6.getAccessibleContext().setAccessibleName("");
 
         ActualTimeRemainingCPUText.setText("0");
         ActualTimeRemainingCPUText.setMinimumSize(new java.awt.Dimension(40, 80));
@@ -278,20 +296,24 @@ public class Panel extends javax.swing.JFrame {
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 5;
+        gridBagConstraints.gridy = 4;
         gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.ipady = 5;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 0, 0, 0);
         currentProcessPanel.add(ActualTimeRemainingCPUText, gridBagConstraints);
+        ActualTimeRemainingCPUText.getAccessibleContext().setAccessibleName("");
 
         label7.setText("Remaining Quantum");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 6;
-        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.RELATIVE;
+        gridBagConstraints.gridy = 5;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 0, 0, 0);
         currentProcessPanel.add(label7, gridBagConstraints);
-        label7.getAccessibleContext().setAccessibleName("Quantum Restante:");
+        label7.getAccessibleContext().setAccessibleName("");
 
         ActualTimeRemainingQuantumText.setText("0");
         ActualTimeRemainingQuantumText.setMinimumSize(new java.awt.Dimension(40, 80));
@@ -303,33 +325,39 @@ public class Panel extends javax.swing.JFrame {
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 6;
+        gridBagConstraints.gridy = 5;
         gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.ipady = 5;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 0, 0, 0);
         currentProcessPanel.add(ActualTimeRemainingQuantumText, gridBagConstraints);
+        ActualTimeRemainingQuantumText.getAccessibleContext().setAccessibleName("");
 
-        pageExecuteChoice.setPreferredSize(new java.awt.Dimension(200, 19));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 7;
-        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        currentProcessPanel.add(pageExecuteChoice, gridBagConstraints);
-
-        tickButton.setText("Tick!");
-        tickButton.addActionListener(new java.awt.event.ActionListener() {
+        runPageCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Page 1" }));
+        runPageCombo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tickButtonActionPerformed(evt);
+                runPageComboActionPerformed(evt);
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 8;
         gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
-        gridBagConstraints.gridheight = java.awt.GridBagConstraints.REMAINDER;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(37, 32, 38, 0);
-        currentProcessPanel.add(tickButton, gridBagConstraints);
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.PAGE_END;
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 0, 0, 0);
+        currentProcessPanel.add(runPageCombo, gridBagConstraints);
+
+        jLabel2.setText("Run page:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 7;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.PAGE_END;
+        gridBagConstraints.weighty = 1.0;
+        currentProcessPanel.add(jLabel2, gridBagConstraints);
 
         leftPanel.add(currentProcessPanel);
 
@@ -366,12 +394,8 @@ public class Panel extends javax.swing.JFrame {
 
         interruptPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Interrupt request"));
 
-        interruptionChoice.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                interruptionChoiceMouseClicked(evt);
-            }
-        });
-        interruptPanel.add(interruptionChoice);
+        interruptCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Interrupt?" }));
+        interruptPanel.add(interruptCombo);
 
         interruptButton.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         interruptButton.setForeground(new java.awt.Color(255, 0, 153));
@@ -549,7 +573,6 @@ public class Panel extends javax.swing.JFrame {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
         createProcessPanel.add(NewProcessCreateButton, gridBagConstraints);
-        NewProcessCreateButton.getAccessibleContext().setAccessibleName("Create!");
         NewProcessCreateButton.getAccessibleContext().setAccessibleDescription("");
 
         newProcessNameText.addActionListener(new java.awt.event.ActionListener() {
@@ -681,19 +704,6 @@ public class Panel extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_ActualTimeNameTextActionPerformed
 
-    private void actualTimeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_actualTimeActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_actualTimeActionPerformed
-
-    private void tickButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tickButtonActionPerformed
-        kernel.tick();
-        updateData();
-    }//GEN-LAST:event_tickButtonActionPerformed
-
-    private void interruptionChoiceMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_interruptionChoiceMouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_interruptionChoiceMouseClicked
-
     private void NewProcessCreateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NewProcessCreateButtonActionPerformed
         try{
             this.kernel.newProcess(this.newProcessNameText.getText(),
@@ -703,6 +713,10 @@ public class Panel extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(Panel.this, "Operating system is full!\nProcess is not allowed to enter");
         }
     }//GEN-LAST:event_NewProcessCreateButtonActionPerformed
+
+    private void runPageComboActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_runPageComboActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_runPageComboActionPerformed
 
     /**
      * @param args the command line arguments
@@ -752,16 +766,17 @@ public class Panel extends javax.swing.JFrame {
     private javax.swing.JButton MemorychangeAlgorithmButton;
     private javax.swing.JButton NewProcessCreateButton;
     private javax.swing.JSpinner Spinner;
-    private java.awt.TextField actualTime;
     private javax.swing.JPanel centerPanel;
     private javax.swing.JPanel createProcessPanel;
     private javax.swing.JPanel currentProcessPanel;
+    private javax.swing.JTextField currentTimeText;
     private javax.swing.JButton interruptButton;
+    private javax.swing.JComboBox<String> interruptCombo;
     private javax.swing.JPanel interruptPanel;
-    private java.awt.Choice interruptionChoice;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
@@ -779,11 +794,10 @@ public class Panel extends javax.swing.JFrame {
     private javax.swing.JTextField newProcessNameText;
     private javax.swing.JSpinner newProcessPagesSpinner;
     private javax.swing.JTextField newProcessTotalExecutionText;
-    private java.awt.Choice pageExecuteChoice;
     private javax.swing.JPanel pagesPanel;
     private javax.swing.JPanel rightPanel;
+    private javax.swing.JComboBox<String> runPageCombo;
     private javax.swing.JPanel schedAlgoPanel;
-    private javax.swing.JButton tickButton;
     private javax.swing.JPanel timePanel;
     // End of variables declaration//GEN-END:variables
 }
