@@ -6,12 +6,15 @@
 package cutreos;
 
 import java.util.LinkedList;
+import java.util.logging.Logger;
 
 /**
  *
  * @author ismael
  */
 public class Page {
+    private final static Logger logger = Logger.getLogger("kernel.scheduling.page"); 
+
 
     boolean resident = false;
     int arrive_time = 0;

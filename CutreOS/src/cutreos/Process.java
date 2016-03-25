@@ -1,11 +1,15 @@
 package cutreos;
 
 import java.util.LinkedList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Created by ismael on 2/14/16.
  */
 public class Process {
+    private final static Logger logger = Logger.getLogger("kernel.scheduling.proc"); 
+
     String name;
     int pid;
     int arriveTime;
@@ -31,12 +35,18 @@ public class Process {
         this.expected_runtime = expected_runtime;
         this.pid = pid;
         pages = new LinkedList<>();
+        logger.info("New process created: ".concat(name));
     }
     
     public int addPage(Page p){
         this.pages.addLast(p);
         //return the position in the page list
-        return this.pages.size() -1;
+        int pos = this.pages.size() -1;
+        logger.log(Level.INFO, "Added page {0} in process {1}",
+                new Object[] {pos ,this.name});
+        return pos;
+
+        
     }
     public String getName() {
         return name;
@@ -79,6 +89,7 @@ public class Process {
     }
 
     public void finishProcess() {
+        logger.log(Level.INFO, "Process {0} set to FINISHED", this.name);
         this.current = Status.FINISHED;
     }
 
