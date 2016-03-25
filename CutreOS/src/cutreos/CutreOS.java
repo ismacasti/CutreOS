@@ -84,7 +84,7 @@ public class CutreOS {
         LinkedList<LinkedList> pages = new LinkedList<>();
         for (int i = 0; i < pages_count; i++){
             LinkedList<Integer> page = new LinkedList<Integer>();
-            for (int n = 0; n < 6; i++) page.addLast(0);
+            for (int n = 0; n < 6; n++) page.addLast(0);
             pages.addLast(page);
         }
         return this.newProcess(name, this.getTime(), expectedRuntime, status, pages);
