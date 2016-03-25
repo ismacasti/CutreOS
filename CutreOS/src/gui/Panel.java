@@ -8,6 +8,7 @@
 package gui;
 
 import cutreos.CutreOS;
+import cutreos.OSisFullException;
 import java.io.File;
 import java.io.IOException;
 import static java.util.Collections.list;
@@ -88,8 +89,8 @@ public class Panel extends javax.swing.JFrame {
         tickButton = new javax.swing.JButton();
         centerPanel = new javax.swing.JPanel();
         pagesPanel = new javax.swing.JPanel();
-        jScrollPane7 = new javax.swing.JScrollPane();
-        ActualProcessTable = new javax.swing.JTable();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
         interruptPanel = new javax.swing.JPanel();
         interruptionChoice = new java.awt.Choice();
         interruptButton = new javax.swing.JButton();
@@ -109,20 +110,18 @@ public class Panel extends javax.swing.JFrame {
         jLabel11 = new javax.swing.JLabel();
         NewProcessCreateButton = new javax.swing.JButton();
         newProcessNameText = new javax.swing.JTextField();
-        newProcessPagesText = new javax.swing.JSpinner();
-        newProcessTotalExecutionButton = new javax.swing.JTextField();
+        newProcessPagesSpinner = new javax.swing.JSpinner();
+        newProcessTotalExecutionText = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("OS Simulator™ CutreOS© · I ❤ OS");
-        setBackground(new java.awt.Color(51, 51, 255));
         getContentPane().setLayout(new java.awt.GridBagLayout());
 
+        leftPanel.setAlignmentX(0.0F);
         leftPanel.setName("Current process"); // NOI18N
         leftPanel.setRequestFocusEnabled(false);
         leftPanel.setLayout(new javax.swing.BoxLayout(leftPanel, javax.swing.BoxLayout.Y_AXIS));
 
-        timePanel.setMinimumSize(null);
-        timePanel.setPreferredSize(null);
         timePanel.setLayout(new java.awt.GridBagLayout());
 
         AddFileButton.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
@@ -161,6 +160,7 @@ public class Panel extends javax.swing.JFrame {
         leftPanel.add(timePanel);
 
         currentProcessPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Current process"));
+        currentProcessPanel.setMinimumSize(new java.awt.Dimension(40, 80));
         currentProcessPanel.setLayout(new java.awt.GridBagLayout());
 
         label1.setText("Name:");
@@ -173,6 +173,7 @@ public class Panel extends javax.swing.JFrame {
         currentProcessPanel.add(label1, gridBagConstraints);
 
         ActualTimeNameText.setText("0");
+        ActualTimeNameText.setMinimumSize(new java.awt.Dimension(40, 80));
         ActualTimeNameText.setPreferredSize(new java.awt.Dimension(40, 19));
         ActualTimeNameText.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -196,6 +197,7 @@ public class Panel extends javax.swing.JFrame {
         currentProcessPanel.add(label2, gridBagConstraints);
 
         ActualTimeArriveText.setText("0");
+        ActualTimeArriveText.setMinimumSize(new java.awt.Dimension(40, 80));
         ActualTimeArriveText.setPreferredSize(new java.awt.Dimension(40, 19));
         ActualTimeArriveText.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -219,6 +221,7 @@ public class Panel extends javax.swing.JFrame {
         currentProcessPanel.add(label3, gridBagConstraints);
 
         ActualTimeAssignedCPUText.setText("0");
+        ActualTimeAssignedCPUText.setMinimumSize(new java.awt.Dimension(40, 80));
         ActualTimeAssignedCPUText.setPreferredSize(new java.awt.Dimension(40, 19));
         ActualTimeAssignedCPUText.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -242,6 +245,7 @@ public class Panel extends javax.swing.JFrame {
         currentProcessPanel.add(label4, gridBagConstraints);
 
         ActualTimeAgingText.setText("0");
+        ActualTimeAgingText.setMinimumSize(new java.awt.Dimension(40, 80));
         ActualTimeAgingText.setPreferredSize(new java.awt.Dimension(40, 19));
         ActualTimeAgingText.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -265,6 +269,7 @@ public class Panel extends javax.swing.JFrame {
         currentProcessPanel.add(label6, gridBagConstraints);
 
         ActualTimeRemainingCPUText.setText("0");
+        ActualTimeRemainingCPUText.setMinimumSize(new java.awt.Dimension(40, 80));
         ActualTimeRemainingCPUText.setPreferredSize(new java.awt.Dimension(40, 19));
         ActualTimeRemainingCPUText.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -289,6 +294,7 @@ public class Panel extends javax.swing.JFrame {
         label7.getAccessibleContext().setAccessibleName("Quantum Restante:");
 
         ActualTimeRemainingQuantumText.setText("0");
+        ActualTimeRemainingQuantumText.setMinimumSize(new java.awt.Dimension(40, 80));
         ActualTimeRemainingQuantumText.setPreferredSize(new java.awt.Dimension(40, 19));
         ActualTimeRemainingQuantumText.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -329,8 +335,9 @@ public class Panel extends javax.swing.JFrame {
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridheight = 5;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         getContentPane().add(leftPanel, gridBagConstraints);
 
@@ -338,49 +345,32 @@ public class Panel extends javax.swing.JFrame {
         centerPanel.setLayout(new javax.swing.BoxLayout(centerPanel, javax.swing.BoxLayout.PAGE_AXIS));
 
         pagesPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Current process page table"));
+        pagesPanel.setLayout(new java.awt.BorderLayout());
 
-        ActualProcessTable.setModel(new javax.swing.table.DefaultTableModel(
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
             },
             new String [] {
-                "pag", "r", "arrive", "last access", "access", "NUR"
+                "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane7.setViewportView(ActualProcessTable);
-        if (ActualProcessTable.getColumnModel().getColumnCount() > 0) {
-            ActualProcessTable.getColumnModel().getColumn(0).setHeaderValue("pag");
-            ActualProcessTable.getColumnModel().getColumn(1).setHeaderValue("r");
-            ActualProcessTable.getColumnModel().getColumn(2).setHeaderValue("arrive");
-            ActualProcessTable.getColumnModel().getColumn(3).setHeaderValue("last access");
-            ActualProcessTable.getColumnModel().getColumn(4).setHeaderValue("access");
-            ActualProcessTable.getColumnModel().getColumn(5).setHeaderValue("NUR");
-        }
+        jScrollPane1.setViewportView(jTable1);
 
-        javax.swing.GroupLayout pagesPanelLayout = new javax.swing.GroupLayout(pagesPanel);
-        pagesPanel.setLayout(pagesPanelLayout);
-        pagesPanelLayout.setHorizontalGroup(
-            pagesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pagesPanelLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 566, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-        );
-        pagesPanelLayout.setVerticalGroup(
-            pagesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pagesPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(3138, Short.MAX_VALUE))
-        );
+        pagesPanel.add(jScrollPane1, java.awt.BorderLayout.CENTER);
 
         centerPanel.add(pagesPanel);
 
         interruptPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Interrupt request"));
+
+        interruptionChoice.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                interruptionChoiceMouseClicked(evt);
+            }
+        });
         interruptPanel.add(interruptionChoice);
 
         interruptButton.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
@@ -438,7 +428,7 @@ public class Panel extends javax.swing.JFrame {
                         .addContainerGap())
                     .addGroup(schedAlgoPanelLayout.createSequentialGroup()
                         .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 80, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 104, Short.MAX_VALUE)
                         .addComponent(Spinner, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(25, 25, 25))))
         );
@@ -513,79 +503,93 @@ public class Panel extends javax.swing.JFrame {
 
         createProcessPanel.setBackground(new java.awt.Color(204, 204, 204));
         createProcessPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("New process"));
+        createProcessPanel.setLayout(new java.awt.GridBagLayout());
 
         jLabel9.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel9.setText("Name:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
+        createProcessPanel.add(jLabel9, gridBagConstraints);
 
         jLabel10.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel10.setText("Total Execution:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
+        createProcessPanel.add(jLabel10, gridBagConstraints);
 
         jLabel11.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel11.setText("Pages:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
+        createProcessPanel.add(jLabel11, gridBagConstraints);
 
         NewProcessCreateButton.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        NewProcessCreateButton.setText("Create:");
+        NewProcessCreateButton.setText("Create!");
         NewProcessCreateButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                createButtom(evt);
+                NewProcessCreateButtonActionPerformed(evt);
             }
         });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 6;
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.gridheight = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.ipadx = 200;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
+        createProcessPanel.add(NewProcessCreateButton, gridBagConstraints);
+        NewProcessCreateButton.getAccessibleContext().setAccessibleName("Create!");
+        NewProcessCreateButton.getAccessibleContext().setAccessibleDescription("");
 
         newProcessNameText.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 newProcessNameTextActionPerformed(evt);
             }
         });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.gridheight = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
+        createProcessPanel.add(newProcessNameText, gridBagConstraints);
 
-        newProcessTotalExecutionButton.addActionListener(new java.awt.event.ActionListener() {
+        newProcessPagesSpinner.setModel(new javax.swing.SpinnerNumberModel(1, 1, 100, 1));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
+        createProcessPanel.add(newProcessPagesSpinner, gridBagConstraints);
+
+        newProcessTotalExecutionText.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                newProcessTotalExecutionButtonActionPerformed(evt);
+                newProcessTotalExecutionTextActionPerformed(evt);
             }
         });
-
-        javax.swing.GroupLayout createProcessPanelLayout = new javax.swing.GroupLayout(createProcessPanel);
-        createProcessPanel.setLayout(createProcessPanelLayout);
-        createProcessPanelLayout.setHorizontalGroup(
-            createProcessPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(createProcessPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(createProcessPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(NewProcessCreateButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(createProcessPanelLayout.createSequentialGroup()
-                        .addGroup(createProcessPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jLabel10)
-                            .addGroup(createProcessPanelLayout.createSequentialGroup()
-                                .addComponent(jLabel11)
-                                .addGap(18, 18, 18)
-                                .addComponent(newProcessPagesText))
-                            .addGroup(createProcessPanelLayout.createSequentialGroup()
-                                .addComponent(jLabel9)
-                                .addGap(18, 18, 18)
-                                .addComponent(newProcessNameText, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(18, 18, 18)
-                        .addComponent(newProcessTotalExecutionButton, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 87, Short.MAX_VALUE)))
-                .addContainerGap())
-        );
-        createProcessPanelLayout.setVerticalGroup(
-            createProcessPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(createProcessPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(createProcessPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel9)
-                    .addComponent(newProcessNameText, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(28, 28, 28)
-                .addGroup(createProcessPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel11)
-                    .addComponent(newProcessPagesText, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(32, 32, 32)
-                .addGroup(createProcessPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel10)
-                    .addComponent(newProcessTotalExecutionButton, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(NewProcessCreateButton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(19, 19, 19))
-        );
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
+        createProcessPanel.add(newProcessTotalExecutionText, gridBagConstraints);
 
         rightPanel.add(createProcessPanel);
 
@@ -665,17 +669,13 @@ public class Panel extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_interruptButtonActionPerformed
 
-    private void newProcessTotalExecutionButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newProcessTotalExecutionButtonActionPerformed
+    private void newProcessTotalExecutionTextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newProcessTotalExecutionTextActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_newProcessTotalExecutionButtonActionPerformed
+    }//GEN-LAST:event_newProcessTotalExecutionTextActionPerformed
 
     private void newProcessNameTextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newProcessNameTextActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_newProcessNameTextActionPerformed
-
-    private void createButtom(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createButtom
-        // TODO add your handling code here:
-    }//GEN-LAST:event_createButtom
 
     private void ActualTimeNameTextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ActualTimeNameTextActionPerformed
         // TODO add your handling code here:
@@ -689,6 +689,20 @@ public class Panel extends javax.swing.JFrame {
         kernel.tick();
         updateData();
     }//GEN-LAST:event_tickButtonActionPerformed
+
+    private void interruptionChoiceMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_interruptionChoiceMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_interruptionChoiceMouseClicked
+
+    private void NewProcessCreateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NewProcessCreateButtonActionPerformed
+        try{
+            this.kernel.newProcess(this.newProcessNameText.getText(),
+                    (int) this.newProcessPagesSpinner.getValue(),
+                    Integer.parseInt(this.newProcessTotalExecutionText.getText()));
+        }catch(cutreos.OSisFullException e){
+                JOptionPane.showMessageDialog(Panel.this, "Operating system is full!\nProcess is not allowed to enter");
+        }
+    }//GEN-LAST:event_NewProcessCreateButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -726,7 +740,6 @@ public class Panel extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTable ActualProcessTable;
     private javax.swing.JTextField ActualTimeAgingText;
     private javax.swing.JTextField ActualTimeArriveText;
     private javax.swing.JTextField ActualTimeAssignedCPUText;
@@ -753,7 +766,8 @@ public class Panel extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel9;
-    private javax.swing.JScrollPane jScrollPane7;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable jTable1;
     private java.awt.Label label1;
     private java.awt.Label label2;
     private java.awt.Label label3;
@@ -763,8 +777,8 @@ public class Panel extends javax.swing.JFrame {
     private javax.swing.JPanel leftPanel;
     private javax.swing.JPanel memAlgoPanel;
     private javax.swing.JTextField newProcessNameText;
-    private javax.swing.JSpinner newProcessPagesText;
-    private javax.swing.JTextField newProcessTotalExecutionButton;
+    private javax.swing.JSpinner newProcessPagesSpinner;
+    private javax.swing.JTextField newProcessTotalExecutionText;
     private java.awt.Choice pageExecuteChoice;
     private javax.swing.JPanel pagesPanel;
     private javax.swing.JPanel rightPanel;

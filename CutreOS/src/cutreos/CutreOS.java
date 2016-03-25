@@ -43,6 +43,7 @@ public class CutreOS {
         return sched.getCurrentSched();
     }
 
+    
     public int newProcess(String name, int arriveTime, int expectedRuntime, int status, LinkedList<LinkedList> pages) throws OSisFullException {
         Process.Status s = Process.Status.NEW;
         switch (status) {
@@ -64,6 +65,18 @@ public class CutreOS {
         }
         return p.getPid();
     }
+    
+    public int newProcess(String name, int expectedRuntime, int pages_count) throws OSisFullException{
+        int status = 3;
+        LinkedList<LinkedList> pages = new LinkedList<>();
+        for (int i = 0; i < pages_count; i++){
+            LinkedList<Integer> page = new LinkedList<Integer>();
+            for (int n = 0; n < 6; i++) page.addLast(0);
+            pages.addLast(page);
+        }
+        return this.newProcess(name, this.getTime(), expectedRuntime, status, pages);
+    }
+    
 
     public Process getRunning() {
         return sched.getRunning();
