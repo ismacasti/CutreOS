@@ -1,11 +1,13 @@
 package cutreos;
 
+import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.lang.reflect.Constructor;
 
 /**
  * Created by ismael on 2/14/16.
@@ -18,6 +20,18 @@ public class CutreOS {
     private LinkedList<Interrupt> interruptList;
     private LinkedList<PagingAlgorithm> pagingList;
     private LinkedList<SchedAlgorithm> schedList;
+
+    public LinkedList<String> getPagingList() {
+        LinkedList<String> list = new LinkedList<>();
+        for(PagingAlgorithm p: this.pagingList){
+            list.addLast(p.getName());
+        }
+        return list;
+    }
+    public String getCurrentPagingAlgo(){
+        PagingAlgorithm algo = this.sched.getCurrentPagingAlgo();
+        return algo.getName();
+    }
 
     public CutreOS() {
         //initalize logging to console
@@ -39,6 +53,10 @@ public class CutreOS {
         schedList.add(new SchedFCFS());
         
         this.sched = new Scheduling();
+        logger.log(Level.INFO, "Scheduling instance loaded");
+        
+        setPagingAlgorithm(pagingList.get(0).getName());
+        logger.log(Level.INFO, "Loaded paging algorithm: ".concat(pagingList.get(0).getName()));
         logger.info("CutreOS kernel initiliazed");
 
     }
@@ -67,6 +85,23 @@ public class CutreOS {
         return sched.getCurrentSched();
     }
 
+    public void setPagingAlgorithm(String algo){
+        for(PagingAlgorithm s: this.pagingList){
+            try{
+                if(s.getName() == algo){
+                    Constructor constructor =
+                            s.getClass().getConstructor(new Class[]{this.sched.getClass()});
+                PagingAlgorithm newAlgo =
+                        (PagingAlgorithm)constructor.newInstance(this.sched);
+                
+                this.sched.setPagingAlgorithm(newAlgo);
+
+                }
+            }catch(Exception e){
+                logger.log(Level.SEVERE, "Vergas! algo falló y ni puta idea");
+            }
+        }
+    }
     
     public int newProcess(String name, int arriveTime, int expectedRuntime, int status, LinkedList<LinkedList> pages) throws OSisFullException {
         logger.entering(getClass().getName(), "newProcess");

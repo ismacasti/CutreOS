@@ -31,12 +31,25 @@ public class Panel extends javax.swing.JFrame {
      */
     
     private CutreOS kernel;
+    private LinkedList<String> pagingAlgorithmList;
+    private int pagingAlgoIndex = 0;
     public Panel() {
         kernel = new CutreOS();
         initComponents();
+        getKernelAlgorithms();
     }
 
-    
+    private void getKernelAlgorithms(){
+        //get paging list
+        this.pagingAlgorithmList = kernel.getPagingList();
+        //get interrupt list
+        LinkedList<String> interruptList = kernel.getInterrupts();
+        this.interruptCombo.removeAllItems();
+        for (String i: interruptList){
+            this.interruptCombo.addItem(i);
+        }
+        currentPagingAlgoLabel.setText(kernel.getCurrentPagingAlgo());
+    }
     private void updateData(){
         cutreos.Process running = kernel.getRunning();
         currentTimeText.setText(Integer.toString(kernel.getTime()));
@@ -49,13 +62,6 @@ public class Panel extends javax.swing.JFrame {
            ActualTimeAgingText.setText("not implemented.");
            ActualTimeRemainingCPUText.setText(Integer.toString(running.getExpected_runtime()-running.getRunning_time()));
            ActualTimeRemainingQuantumText.setText("0");
-        }
-        
-        //update the interrupt list
-        LinkedList<String> interruptList = kernel.getInterrupts();
-        this.interruptCombo.removeAllItems();
-        for (String i: interruptList){
-            this.interruptCombo.addItem(i);
         }
     }
     /**
@@ -91,7 +97,7 @@ public class Panel extends javax.swing.JFrame {
         centerPanel = new javax.swing.JPanel();
         pagesPanel = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        pageTable = new javax.swing.JTable();
         interruptPanel = new javax.swing.JPanel();
         interruptCombo = new javax.swing.JComboBox<>();
         interruptButton = new javax.swing.JButton();
@@ -104,7 +110,7 @@ public class Panel extends javax.swing.JFrame {
         memAlgoPanel = new javax.swing.JPanel();
         MemorybitsResetNURButton = new javax.swing.JButton();
         MemorychangeAlgorithmButton = new javax.swing.JButton();
-        jLabel4 = new javax.swing.JLabel();
+        currentPagingAlgoLabel = new javax.swing.JLabel();
         createProcessPanel = new javax.swing.JPanel();
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
@@ -375,18 +381,30 @@ public class Panel extends javax.swing.JFrame {
         pagesPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Current process page table"));
         pagesPanel.setLayout(new java.awt.BorderLayout());
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        pageTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                { new Integer(0),  new Integer(0),  new Integer(0),  new Integer(0), null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "#", "r", "arrive", "last access", "access count", "referenced", "modified"
             }
-        ));
-        jScrollPane1.setViewportView(jTable1);
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Boolean.class, java.lang.Boolean.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, true, true
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane1.setViewportView(pageTable);
 
         pagesPanel.add(jScrollPane1, java.awt.BorderLayout.CENTER);
 
@@ -493,8 +511,8 @@ public class Panel extends javax.swing.JFrame {
             }
         });
 
-        jLabel4.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jLabel4.setText("NUR");
+        currentPagingAlgoLabel.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        currentPagingAlgoLabel.setText("NUR");
 
         javax.swing.GroupLayout memAlgoPanelLayout = new javax.swing.GroupLayout(memAlgoPanel);
         memAlgoPanel.setLayout(memAlgoPanelLayout);
@@ -504,7 +522,7 @@ public class Panel extends javax.swing.JFrame {
                 .addGroup(memAlgoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(memAlgoPanelLayout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(currentPagingAlgoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(memAlgoPanelLayout.createSequentialGroup()
                         .addGap(51, 51, 51)
                         .addGroup(memAlgoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -515,7 +533,7 @@ public class Panel extends javax.swing.JFrame {
         memAlgoPanelLayout.setVerticalGroup(
             memAlgoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(memAlgoPanelLayout.createSequentialGroup()
-                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(currentPagingAlgoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(MemorychangeAlgorithmButton, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -768,6 +786,7 @@ public class Panel extends javax.swing.JFrame {
     private javax.swing.JSpinner Spinner;
     private javax.swing.JPanel centerPanel;
     private javax.swing.JPanel createProcessPanel;
+    private javax.swing.JLabel currentPagingAlgoLabel;
     private javax.swing.JPanel currentProcessPanel;
     private javax.swing.JTextField currentTimeText;
     private javax.swing.JButton interruptButton;
@@ -777,12 +796,10 @@ public class Panel extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
     private java.awt.Label label1;
     private java.awt.Label label2;
     private java.awt.Label label3;
@@ -794,6 +811,7 @@ public class Panel extends javax.swing.JFrame {
     private javax.swing.JTextField newProcessNameText;
     private javax.swing.JSpinner newProcessPagesSpinner;
     private javax.swing.JTextField newProcessTotalExecutionText;
+    private javax.swing.JTable pageTable;
     private javax.swing.JPanel pagesPanel;
     private javax.swing.JPanel rightPanel;
     private javax.swing.JComboBox<String> runPageCombo;

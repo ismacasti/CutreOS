@@ -15,6 +15,7 @@ public class Scheduling {
     private Process running;
     private SchedAlgorithm currentSched;
     private int procCounter = 0;
+    private PagingAlgorithm currentPaging;
     
     private int time = 0;
 
@@ -82,6 +83,14 @@ public class Scheduling {
     public void kill(Process proc){
         logger.log(Level.INFO, "Process {0} has been killed!", proc.getName());
         proc.setCurrent(Status.FINISHED);
+    }
+
+    void setPagingAlgorithm(PagingAlgorithm newAlgo) {
+        this.currentPaging = newAlgo;
+    }
+
+    PagingAlgorithm getCurrentPagingAlgo() {
+        return this.currentPaging;
     }
 
 }
