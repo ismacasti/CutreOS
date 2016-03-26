@@ -9,12 +9,15 @@ package gui;
 
 import cutreos.CutreOS;
 import cutreos.OSisFullException;
+import cutreos.Page;
 import java.io.File;
 import java.io.IOException;
 import static java.util.Collections.list;
 import java.util.LinkedList;
+import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 
 
@@ -37,6 +40,7 @@ public class Panel extends javax.swing.JFrame {
         kernel = new CutreOS();
         initComponents();
         getKernelAlgorithms();
+        updateData();
     }
 
     private void getKernelAlgorithms(){
@@ -63,6 +67,7 @@ public class Panel extends javax.swing.JFrame {
            ActualTimeRemainingCPUText.setText(Integer.toString(running.getExpected_runtime()-running.getRunning_time()));
            ActualTimeRemainingQuantumText.setText("0");
         }
+        updateTable(running.getPages());
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -93,7 +98,7 @@ public class Panel extends javax.swing.JFrame {
         label7 = new java.awt.Label();
         ActualTimeRemainingQuantumText = new javax.swing.JTextField();
         runPageCombo = new javax.swing.JComboBox<>();
-        jLabel2 = new javax.swing.JLabel();
+        runPageButton = new javax.swing.JButton();
         centerPanel = new javax.swing.JPanel();
         pagesPanel = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -165,7 +170,10 @@ public class Panel extends javax.swing.JFrame {
 
         currentProcessPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Current process"));
         currentProcessPanel.setMinimumSize(new java.awt.Dimension(40, 80));
-        currentProcessPanel.setLayout(new java.awt.GridBagLayout());
+        java.awt.GridBagLayout currentProcessPanelLayout = new java.awt.GridBagLayout();
+        currentProcessPanelLayout.columnWidths = new int[] {0, 5, 0};
+        currentProcessPanelLayout.rowHeights = new int[] {0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0};
+        currentProcessPanel.setLayout(currentProcessPanelLayout);
 
         label1.setText("Name:");
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -185,7 +193,7 @@ public class Panel extends javax.swing.JFrame {
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
@@ -198,7 +206,7 @@ public class Panel extends javax.swing.JFrame {
         label2.setText("Arrive:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridy = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 0, 0, 0);
@@ -214,8 +222,8 @@ public class Panel extends javax.swing.JFrame {
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 2;
         gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.ipady = 5;
@@ -227,7 +235,7 @@ public class Panel extends javax.swing.JFrame {
         label3.setText("Assigned CPU:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridy = 4;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 0, 0, 0);
@@ -243,8 +251,8 @@ public class Panel extends javax.swing.JFrame {
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 4;
         gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.ipady = 5;
@@ -256,7 +264,7 @@ public class Panel extends javax.swing.JFrame {
         label4.setText("Aging:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridy = 6;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 0, 0, 0);
@@ -272,8 +280,8 @@ public class Panel extends javax.swing.JFrame {
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 6;
         gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.ipady = 5;
@@ -285,7 +293,7 @@ public class Panel extends javax.swing.JFrame {
         label6.setText("Remaining CPU:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridy = 8;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 0, 0, 0);
@@ -301,8 +309,8 @@ public class Panel extends javax.swing.JFrame {
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 8;
         gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.ipady = 5;
@@ -314,7 +322,7 @@ public class Panel extends javax.swing.JFrame {
         label7.setText("Remaining Quantum");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 5;
+        gridBagConstraints.gridy = 10;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 0, 0, 0);
@@ -330,8 +338,8 @@ public class Panel extends javax.swing.JFrame {
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 5;
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 10;
         gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.ipady = 5;
@@ -340,7 +348,13 @@ public class Panel extends javax.swing.JFrame {
         currentProcessPanel.add(ActualTimeRemainingQuantumText, gridBagConstraints);
         ActualTimeRemainingQuantumText.getAccessibleContext().setAccessibleName("");
 
-        runPageCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Page 1" }));
+        runPageCombo.addInputMethodListener(new java.awt.event.InputMethodListener() {
+            public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
+                runPageComboInputMethodTextChanged(evt);
+            }
+            public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
+            }
+        });
         runPageCombo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 runPageComboActionPerformed(evt);
@@ -348,22 +362,25 @@ public class Panel extends javax.swing.JFrame {
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 8;
-        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.gridy = 16;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.PAGE_END;
         gridBagConstraints.weighty = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 0, 0, 0);
         currentProcessPanel.add(runPageCombo, gridBagConstraints);
 
-        jLabel2.setText("Run page:");
+        runPageButton.setText("Run!");
+        runPageButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                runPageButtonActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 7;
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 16;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.PAGE_END;
-        gridBagConstraints.weighty = 1.0;
-        currentProcessPanel.add(jLabel2, gridBagConstraints);
+        currentProcessPanel.add(runPageButton, gridBagConstraints);
 
         leftPanel.add(currentProcessPanel);
 
@@ -383,14 +400,14 @@ public class Panel extends javax.swing.JFrame {
 
         pageTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                { new Integer(0),  new Integer(0),  new Integer(0),  new Integer(0), null, null, null}
+                { new Integer(0), null,  new Integer(0),  new Integer(0), null, null, null}
             },
             new String [] {
                 "#", "r", "arrive", "last access", "access count", "referenced", "modified"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Boolean.class, java.lang.Boolean.class
+                java.lang.Integer.class, java.lang.Boolean.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Boolean.class, java.lang.Boolean.class
             };
             boolean[] canEdit = new boolean [] {
                 false, false, false, false, false, true, true
@@ -646,7 +663,12 @@ public class Panel extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void changeAlgorithm(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_changeAlgorithm
-        // TODO add your handling code here:
+        this.pagingAlgoIndex++;
+        if(this.pagingAlgoIndex > pagingAlgorithmList.size()-1)
+            pagingAlgoIndex = 0;
+        kernel.setPagingAlgorithm(pagingAlgorithmList.get(pagingAlgoIndex));
+        getKernelAlgorithms();
+
     }//GEN-LAST:event_changeAlgorithm
 
     private void bitsReset(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bitsReset
@@ -732,9 +754,22 @@ public class Panel extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_NewProcessCreateButtonActionPerformed
 
-    private void runPageComboActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_runPageComboActionPerformed
+    private void runPageComboInputMethodTextChanged(java.awt.event.InputMethodEvent evt) {//GEN-FIRST:event_runPageComboInputMethodTextChanged
         // TODO add your handling code here:
+    }//GEN-LAST:event_runPageComboInputMethodTextChanged
+
+    private void runPageComboActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_runPageComboActionPerformed
+
     }//GEN-LAST:event_runPageComboActionPerformed
+
+    private void runPageButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_runPageButtonActionPerformed
+        int selected = runPageCombo.getSelectedIndex();
+        if(selected >= 0){
+            kernel.runPage(selected);
+            getKernelAlgorithms();
+            updateData();
+        }
+    }//GEN-LAST:event_runPageButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -795,7 +830,6 @@ public class Panel extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel9;
@@ -814,8 +848,34 @@ public class Panel extends javax.swing.JFrame {
     private javax.swing.JTable pageTable;
     private javax.swing.JPanel pagesPanel;
     private javax.swing.JPanel rightPanel;
+    private javax.swing.JButton runPageButton;
     private javax.swing.JComboBox<String> runPageCombo;
     private javax.swing.JPanel schedAlgoPanel;
     private javax.swing.JPanel timePanel;
     // End of variables declaration//GEN-END:variables
+
+    private void updateTable(LinkedList<Page> pages) {
+        int pageNumber = 0;
+        DefaultTableModel model = (DefaultTableModel) pageTable.getModel();
+        model.setRowCount(0);
+        
+        runPageCombo.removeAllItems();
+
+        for(Page page: pages){
+            Object[] data = new Object[] {
+                                pageNumber,
+                                page.isResident(),
+                                page.getArrive_time(),
+                                page.getLast_access_time(),
+                                page.getAccess_count(),
+                                page.isReferenced(),
+                                page.isModified()
+                                };
+            model.addRow(data);
+            runPageCombo.addItem("Page ".concat(Integer.toString(pageNumber)));
+            
+            pageNumber++;
+        }
+            
+    }
 }

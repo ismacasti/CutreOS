@@ -90,5 +90,8 @@ public class Page {
         this.setReferenced(p.get(4) == 1);
         this.setModified(p.get(5) == 1);
     }
+    public Page(){
+        
+    }
     
 }

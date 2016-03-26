@@ -33,8 +33,8 @@ public class PagingNRU extends PagingAlgorithm {
         super();
     }
 
-    public static final String getName(){
-        return "NRU";
+    public String getName(){
+        return this.name;
     }
     
     private int calcPoints(Page p){

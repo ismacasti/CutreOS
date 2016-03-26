@@ -34,8 +34,8 @@ public class PagingLRU extends PagingAlgorithm{
         super();
     }
     
-    public static final String getName(){
-        return "LRU";
+    public String getName(){
+        return this.name;
     }
     
     private Page getLastAccessed(Page p1, Page p2){

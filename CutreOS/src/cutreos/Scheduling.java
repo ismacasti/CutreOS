@@ -12,7 +12,6 @@ public class Scheduling {
     private final static Logger logger = Logger.getLogger("kernel.scheduling"); 
 
     private LinkedList<Process> allProcesses = new LinkedList<Process>();
-    private Process running;
     private SchedAlgorithm currentSched;
     private int procCounter = 0;
     private PagingAlgorithm currentPaging;
@@ -63,14 +62,17 @@ public class Scheduling {
         this.time++;
         logger.info("New tick! Time = ".concat(Integer.toString(this.time)));
         this.currentSched.tick(time);
-        this.running = currentSched.getRunning();
-        if(this.running != null)
-            logger.info("The running process is: ".concat(this.running.getName()));
-        else logger.info("No process is running at this moment");
+        if(this.getRunning() != null)
+            logger.info("The running process is: ".concat(this.getRunning().getName()));
+        else setRunningAsIdle();
     }
 
     public Process getRunning() {
-        return this.running;
+        Process running = null;
+        for(Process proc: this.allProcesses){
+            if(proc.getCurrent() == Status.RUNNING) running = proc;
+        }
+        return running;
     }
     
     public void block(Process proc, int blocked_time){
@@ -91,6 +93,39 @@ public class Scheduling {
 
     PagingAlgorithm getCurrentPagingAlgo() {
         return this.currentPaging;
+    }
+
+    private void setRunningAsIdle() {
+        for(Process proc: allProcesses){
+            if(proc.getCurrent() == Status.RUNNING && proc.isIdle() == false)
+                proc.setCurrent(Status.READY);
+            else if(proc.isIdle()) proc.current = Status.RUNNING;
+            
+        }
+    }
+
+    void createIdleProcess() {
+        try{
+            Process idle = newProcess("[IDLE]", 0, 9999, Status.RUNNING);
+            idle.setIdle(true);
+            allProcesses.addLast(idle);
+            Page p = new Page();
+            p.setArrive_time(0);
+            p.setAccess_count(0);
+            p.setLast_access_time(0);
+            p.setModified(false);
+            p.setReferenced(false);
+            p.setResident(true);
+            idle.addPage(p);
+        }catch(OSisFullException e){
+            //this never happens
+        }
+        logger.log(Level.INFO, "Process IDLE created");
+    }
+
+    public void runPage(int pageNumber) {
+        Process running = getRunning();
+        currentPaging.runPage(running, pageNumber);
     }
 
 }

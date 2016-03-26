@@ -44,10 +44,14 @@ public abstract class PagingAlgorithm {
         this.allProcesses = allProcesses;
         this.sched = sched;
     }
-    
+    public void runPage(Process proc, int p){
+        Page page = proc.getPages().get(p);
+        runPage(proc, page);
+    }
     public void runPage(Process proc, Page p){
-        if (p.resident){
-            p.accessPage(sched.getTime());
+        if (p.isResident()){
+            p.setLast_access_time(this.sched.getTime());
+            p.setAccess_count(p.getAccess_count()+1);
             p.setReferenced(true);
         }
         else{
@@ -55,9 +59,7 @@ public abstract class PagingAlgorithm {
         }
     }
     
-    public static String getName(){
-        return "Paging algorithm generic";
-    }
+    abstract String getName();
 
     @SuppressWarnings("empty-statement")
     public void tick(){

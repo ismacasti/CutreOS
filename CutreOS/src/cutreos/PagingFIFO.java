@@ -51,8 +51,8 @@ public class PagingFIFO extends PagingAlgorithm {
         oldest.setResident(false);
     }
     
-    public static final String getName(){
-        return "FIFO";
+    public String getName(){
+        return this.name;
     }
 
 

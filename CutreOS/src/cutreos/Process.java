@@ -20,6 +20,15 @@ public class Process {
     int last_running_time;
     int last_blocked_time;
     int last_ready_time;
+    boolean idleProc = false;
+
+    public boolean isIdle() {
+        return idleProc;
+    }
+
+    public void setIdle(boolean idelProc) {
+        this.idleProc = idelProc;
+    }
     Status current;
     Status next;
     int blocked_until;
@@ -112,6 +121,7 @@ public class Process {
     public LinkedList<Page> getPages() {
         return pages;
     }
+
 
     
 

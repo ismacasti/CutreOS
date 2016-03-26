@@ -33,8 +33,8 @@ public class PagingLFU extends PagingAlgorithm {
         super();
     }
 
-    public static final String getName(){
-        return "LFU";
+    public String getName(){
+        return this.name;
     }
 
     @Override

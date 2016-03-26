@@ -34,8 +34,9 @@ public class CutreOS {
     }
 
     public CutreOS() {
-        //initalize logging to console
-        //logger.addHandler(new ConsoleHandler());
+        //initialize sched
+        this.sched = new Scheduling();
+
         //list of interrupts
         this.interruptList = new LinkedList<>();
         interruptList.add(new SigKillInterrupt());
@@ -43,21 +44,22 @@ public class CutreOS {
         
         //paging algorithms list
         this.pagingList = new LinkedList<>();
-        pagingList.add(new PagingFIFO());
-        pagingList.add(new PagingLFU());
-        pagingList.add(new PagingLRU());
-        pagingList.add(new PagingNRU());
+        pagingList.add(new PagingFIFO(this.sched));
+        pagingList.add(new PagingLFU(this.sched));
+        pagingList.add(new PagingLRU(this.sched));
+        pagingList.add(new PagingNRU(this.sched));
         
         //scheduling algorithm list
         this.schedList = new LinkedList<>();
         schedList.add(new SchedFCFS());
         
-        this.sched = new Scheduling();
+        sched.createIdleProcess();
         logger.log(Level.INFO, "Scheduling instance loaded");
-        
-        setPagingAlgorithm(pagingList.get(0).getName());
+        PagingAlgorithm pagingAlgo = pagingList.getFirst();
+        setPagingAlgorithm(pagingAlgo.getName());
         logger.log(Level.INFO, "Loaded paging algorithm: ".concat(pagingList.get(0).getName()));
         logger.info("CutreOS kernel initiliazed");
+        sched.tick();
 
     }
 
@@ -87,20 +89,12 @@ public class CutreOS {
 
     public void setPagingAlgorithm(String algo){
         for(PagingAlgorithm s: this.pagingList){
-            try{
-                if(s.getName() == algo){
-                    Constructor constructor =
-                            s.getClass().getConstructor(new Class[]{this.sched.getClass()});
-                PagingAlgorithm newAlgo =
-                        (PagingAlgorithm)constructor.newInstance(this.sched);
-                
-                this.sched.setPagingAlgorithm(newAlgo);
-
-                }
-            }catch(Exception e){
-                logger.log(Level.SEVERE, "Vergas! algo falló y ni puta idea");
+            if(s.getName() == algo){
+                this.sched.setPagingAlgorithm(s);
+                break;
             }
         }
+        logger.log(Level.INFO, "Paging algorithm set to ".concat(getCurrentPagingAlgo()));
     }
     
     public int newProcess(String name, int arriveTime, int expectedRuntime, int status, LinkedList<LinkedList> pages) throws OSisFullException {
@@ -142,6 +136,12 @@ public class CutreOS {
 
     public Process getRunning() {
         return sched.getRunning();
+    }
+
+    public void runPage(int pageNumber) {
+        this.sched.runPage(pageNumber);
+        this.tick();
+        
     }
 
 

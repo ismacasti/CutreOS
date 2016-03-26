@@ -30,6 +30,8 @@ public abstract class SchedAlgorithm {
     void tick(int time){
         this.time++;
         this.updateTimes();
+        //we put away the IDLE process
+        
         
         //we put from BLOCKED to READY process that 
         //have finished its time in BLOCKED
