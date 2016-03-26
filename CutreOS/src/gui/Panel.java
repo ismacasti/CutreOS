@@ -65,7 +65,7 @@ public class Panel extends javax.swing.JFrame {
         if(running == null){
             JOptionPane.showMessageDialog(Panel.this, "no running procceses.");
         }else{
-           ActualTimeNameText.setText(running.getName());
+           currentProcessNameLabel.setText(running.getName());
            ActualTimeArriveText.setText(Integer.toString(running.getArriveTime()));
            ActualTimeAssignedCPUText.setText(Integer.toString(running.getRunning_time()));
            ActualTimeAgingText.setText(Integer.toString(running.getReady_time()));
@@ -90,8 +90,7 @@ public class Panel extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         currentTimeText = new javax.swing.JTextField();
         currentProcessPanel = new javax.swing.JPanel();
-        label1 = new java.awt.Label();
-        ActualTimeNameText = new javax.swing.JTextField();
+        currentProcessNameLabel = new java.awt.Label();
         label2 = new java.awt.Label();
         ActualTimeArriveText = new javax.swing.JTextField();
         label3 = new java.awt.Label();
@@ -180,33 +179,17 @@ public class Panel extends javax.swing.JFrame {
         currentProcessPanelLayout.rowHeights = new int[] {0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0};
         currentProcessPanel.setLayout(currentProcessPanelLayout);
 
-        label1.setText("Name:");
+        currentProcessNameLabel.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        currentProcessNameLabel.setText("Name:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 0, 0, 0);
-        currentProcessPanel.add(label1, gridBagConstraints);
-        label1.getAccessibleContext().setAccessibleName("");
-
-        ActualTimeNameText.setMinimumSize(new java.awt.Dimension(40, 80));
-        ActualTimeNameText.setPreferredSize(new java.awt.Dimension(40, 19));
-        ActualTimeNameText.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ActualTimeNameTextActionPerformed(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 0;
         gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.ipady = 5;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 0, 0, 0);
-        currentProcessPanel.add(ActualTimeNameText, gridBagConstraints);
-        ActualTimeNameText.getAccessibleContext().setAccessibleName("");
+        currentProcessPanel.add(currentProcessNameLabel, gridBagConstraints);
+        currentProcessNameLabel.getAccessibleContext().setAccessibleName("");
 
         label2.setText("Arrive:");
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -405,17 +388,17 @@ public class Panel extends javax.swing.JFrame {
 
         pageTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                { new Integer(0), null,  new Integer(0),  new Integer(0), null, null, null}
+                { new Integer(0), null,  new Integer(0),  new Integer(0),  new Integer(0), null, null}
             },
             new String [] {
-                "#", "r", "arrive", "last access", "access count", "referenced", "modified"
+                "#", "Resident", "Arrive", "Last access", "Access count", "Referenced", "Modified"
             }
         ) {
             Class[] types = new Class [] {
                 java.lang.Integer.class, java.lang.Boolean.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Boolean.class, java.lang.Boolean.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, true, true
+                false, false, false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -758,10 +741,6 @@ public class Panel extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_newProcessNameTextActionPerformed
 
-    private void ActualTimeNameTextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ActualTimeNameTextActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_ActualTimeNameTextActionPerformed
-
     private void NewProcessCreateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NewProcessCreateButtonActionPerformed
         try{
             this.kernel.newProcess(this.newProcessNameText.getText(),
@@ -828,7 +807,6 @@ public class Panel extends javax.swing.JFrame {
     private javax.swing.JTextField ActualTimeAgingText;
     private javax.swing.JTextField ActualTimeArriveText;
     private javax.swing.JTextField ActualTimeAssignedCPUText;
-    private javax.swing.JTextField ActualTimeNameText;
     private javax.swing.JTextField ActualTimeRemainingCPUText;
     private javax.swing.JTextField ActualTimeRemainingQuantumText;
     private javax.swing.JButton AddFileButton;
@@ -840,6 +818,7 @@ public class Panel extends javax.swing.JFrame {
     private javax.swing.JPanel centerPanel;
     private javax.swing.JPanel createProcessPanel;
     private javax.swing.JLabel currentPagingAlgoLabel;
+    private java.awt.Label currentProcessNameLabel;
     private javax.swing.JPanel currentProcessPanel;
     private javax.swing.JTextField currentTimeText;
     private javax.swing.JButton interruptButton;
@@ -851,7 +830,6 @@ public class Panel extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
-    private java.awt.Label label1;
     private java.awt.Label label2;
     private java.awt.Label label3;
     private java.awt.Label label4;
