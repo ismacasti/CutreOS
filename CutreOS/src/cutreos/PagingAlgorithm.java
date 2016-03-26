@@ -52,6 +52,7 @@ public abstract class PagingAlgorithm {
         if (p.isResident()){
             p.setLast_access_time(this.sched.getTime());
             p.setAccess_count(p.getAccess_count()+1);
+            if(p.getAccess_count() % 5 == 0) p.setModified(true);
             p.setReferenced(true);
         }
         else{

@@ -41,6 +41,7 @@ public class CutreOS {
         this.interruptList = new LinkedList<>();
         interruptList.add(new SigKillInterrupt());
         interruptList.add(new SigTermSVCInterrupt());
+        interruptList.add(new IOSVCInterrupt());
         
         //paging algorithms list
         this.pagingList = new LinkedList<>();
@@ -164,6 +165,25 @@ public class CutreOS {
             list.addLast(p.getName());
         }
         return list;
+    }
+
+    public boolean interrupt(String interrupt) {
+        for(Interrupt i: interruptList){
+            if(interrupt == i.getName()){
+                Process running = sched.getRunning();
+                if(!running.isIdle()){
+                    i.interrupt(sched, sched.getRunning());
+                    this.tick();
+                    return true;
+                }else return false;
+            }
+        }
+        return false;
+    }
+
+    public void resetNUR() {
+        Process running = sched.getRunning();
+        if(!running.isIdle()) running.resetNUR();
     }
 
 

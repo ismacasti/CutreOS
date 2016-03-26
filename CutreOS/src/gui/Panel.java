@@ -68,7 +68,7 @@ public class Panel extends javax.swing.JFrame {
            ActualTimeNameText.setText(running.getName());
            ActualTimeArriveText.setText(Integer.toString(running.getArriveTime()));
            ActualTimeAssignedCPUText.setText(Integer.toString(running.getRunning_time()));
-           ActualTimeAgingText.setText("not implemented.");
+           ActualTimeAgingText.setText(Integer.toString(running.getReady_time()));
            ActualTimeRemainingCPUText.setText(Integer.toString(running.getRemaining_time()));
            ActualTimeRemainingQuantumText.setText("0");
         }
@@ -677,7 +677,9 @@ public class Panel extends javax.swing.JFrame {
     }//GEN-LAST:event_changeAlgorithm
 
     private void bitsReset(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bitsReset
-        // TODO add your handling code here:
+        kernel.resetNUR();
+        updateData();
+        getKernelAlgorithms();
     }//GEN-LAST:event_bitsReset
 
     private void ActualTimeArriveTextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ActualTimeArriveTextActionPerformed
@@ -738,7 +740,14 @@ public class Panel extends javax.swing.JFrame {
     }//GEN-LAST:event_AddFileButtonActionPerformed
 
     private void interruptButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_interruptButtonActionPerformed
-        // TODO add your handling code here:
+        String interrupt = (String)interruptCombo.getSelectedItem();
+        boolean success = kernel.interrupt(interrupt);
+        if(success){
+            updateData();
+            getKernelAlgorithms();
+        }else{
+            JOptionPane.showMessageDialog(Panel.this, "Access denied!\nYou can't interrupt IDLE");
+        }
     }//GEN-LAST:event_interruptButtonActionPerformed
 
     private void newProcessTotalExecutionTextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newProcessTotalExecutionTextActionPerformed

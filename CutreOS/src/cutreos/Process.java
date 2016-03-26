@@ -20,6 +20,15 @@ public class Process {
     int last_running_time;
     int last_blocked_time;
     int last_ready_time;
+    int quantum = 0;
+
+    public int getQuantum() {
+        return quantum;
+    }
+
+    public void setQuantum(int quantum) {
+        this.quantum = quantum;
+    }
     boolean idleProc = false;
 
     public boolean isIdle() {
@@ -124,6 +133,13 @@ public class Process {
 
     public LinkedList<Page> getPages() {
         return pages;
+    }
+
+    void resetNUR() {
+        for(Page p: this.getPages()){
+            p.setReferenced(false);
+            p.setModified(false);
+        }
     }
 
 
