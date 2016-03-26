@@ -51,7 +51,8 @@ public class CutreOS {
         
         //scheduling algorithm list
         this.schedList = new LinkedList<>();
-        schedList.add(new SchedFCFS());
+        schedList.add(new SchedFCFS(this.getProcesses(), this.sched));
+        schedList.add(new SchedSRT(this.getProcesses(), this.sched));
         
         sched.createIdleProcess();
         logger.log(Level.INFO, "Scheduling instance loaded");
@@ -97,6 +98,15 @@ public class CutreOS {
         logger.log(Level.INFO, "Paging algorithm set to ".concat(getCurrentPagingAlgo()));
     }
     
+    public void setSchedAlgorithm(String algo){
+        for(SchedAlgorithm s: this.schedList){
+            if(s.getName() == algo){
+                this.sched.setSchedAlgorithm(s);
+                break;
+            }
+        }
+        logger.log(Level.INFO, "Scheduling algorithm set to ".concat(getCurrentSchedAlgo()));
+    }
     public int newProcess(String name, int arriveTime, int expectedRuntime, int status, LinkedList<LinkedList> pages) throws OSisFullException {
         logger.entering(getClass().getName(), "newProcess");
         Process.Status s = Process.Status.NEW;
@@ -142,6 +152,18 @@ public class CutreOS {
         this.sched.runPage(pageNumber);
         this.tick();
         
+    }
+
+    private String getCurrentSchedAlgo() {
+        return this.sched.getCurrentSched();
+    }
+
+    public LinkedList<String> getSchedList() {
+        LinkedList<String> list = new LinkedList<>();
+        for(SchedAlgorithm p: this.schedList){
+            list.addLast(p.getName());
+        }
+        return list;
     }
 
 

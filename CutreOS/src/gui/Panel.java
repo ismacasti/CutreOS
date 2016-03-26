@@ -35,7 +35,9 @@ public class Panel extends javax.swing.JFrame {
     
     private CutreOS kernel;
     private LinkedList<String> pagingAlgorithmList;
+    private LinkedList<String> schedAlgorithmList;
     private int pagingAlgoIndex = 0;
+    private int schedAlgoIndex = 0;
     public Panel() {
         kernel = new CutreOS();
         initComponents();
@@ -46,6 +48,8 @@ public class Panel extends javax.swing.JFrame {
     private void getKernelAlgorithms(){
         //get paging list
         this.pagingAlgorithmList = kernel.getPagingList();
+        //get scheduling algorithm list
+        this.schedAlgorithmList = kernel.getSchedList();
         //get interrupt list
         LinkedList<String> interruptList = kernel.getInterrupts();
         this.interruptCombo.removeAllItems();
@@ -53,6 +57,7 @@ public class Panel extends javax.swing.JFrame {
             this.interruptCombo.addItem(i);
         }
         currentPagingAlgoLabel.setText(kernel.getCurrentPagingAlgo());
+        schedLabel.setText(kernel.getCurrentSched());
     }
     private void updateData(){
         cutreos.Process running = kernel.getRunning();
@@ -64,7 +69,7 @@ public class Panel extends javax.swing.JFrame {
            ActualTimeArriveText.setText(Integer.toString(running.getArriveTime()));
            ActualTimeAssignedCPUText.setText(Integer.toString(running.getRunning_time()));
            ActualTimeAgingText.setText("not implemented.");
-           ActualTimeRemainingCPUText.setText(Integer.toString(running.getExpected_runtime()-running.getRunning_time()));
+           ActualTimeRemainingCPUText.setText(Integer.toString(running.getRemaining_time()));
            ActualTimeRemainingQuantumText.setText("0");
         }
         updateTable(running.getPages());
@@ -108,7 +113,7 @@ public class Panel extends javax.swing.JFrame {
         interruptButton = new javax.swing.JButton();
         rightPanel = new javax.swing.JPanel();
         schedAlgoPanel = new javax.swing.JPanel();
-        jLabel6 = new javax.swing.JLabel();
+        schedLabel = new javax.swing.JLabel();
         CPUchangeAlgorithmButton = new javax.swing.JButton();
         jLabel7 = new javax.swing.JLabel();
         Spinner = new javax.swing.JSpinner();
@@ -457,8 +462,8 @@ public class Panel extends javax.swing.JFrame {
         schedAlgoPanel.setBackground(new java.awt.Color(204, 204, 204));
         schedAlgoPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("CPU"));
 
-        jLabel6.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jLabel6.setText("Roud Robin");
+        schedLabel.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        schedLabel.setText("Mierda pura");
 
         CPUchangeAlgorithmButton.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         CPUchangeAlgorithmButton.setText("Change Algorithm");
@@ -482,7 +487,7 @@ public class Panel extends javax.swing.JFrame {
                         .addGroup(schedAlgoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(CPUchangeAlgorithmButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGroup(schedAlgoPanelLayout.createSequentialGroup()
-                                .addComponent(jLabel6)
+                                .addComponent(schedLabel)
                                 .addGap(0, 0, Short.MAX_VALUE)))
                         .addContainerGap())
                     .addGroup(schedAlgoPanelLayout.createSequentialGroup()
@@ -495,7 +500,7 @@ public class Panel extends javax.swing.JFrame {
             schedAlgoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(schedAlgoPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel6)
+                .addComponent(schedLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(CPUchangeAlgorithmButton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -696,7 +701,11 @@ public class Panel extends javax.swing.JFrame {
     }//GEN-LAST:event_ActualTimeRemainingQuantumTextActionPerformed
 
     private void cpuChangeAlgorithm(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cpuChangeAlgorithm
-        // TODO add your handling code here:
+        this.schedAlgoIndex++;
+        if(this.schedAlgoIndex > schedAlgorithmList.size()-1)
+            schedAlgoIndex = 0;
+        kernel.setSchedAlgorithm(schedAlgorithmList.get(schedAlgoIndex));
+        getKernelAlgorithms();
     }//GEN-LAST:event_cpuChangeAlgorithm
 
     private void AddFileButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddFileButtonActionPerformed
@@ -830,7 +839,6 @@ public class Panel extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
-    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
@@ -851,6 +859,7 @@ public class Panel extends javax.swing.JFrame {
     private javax.swing.JButton runPageButton;
     private javax.swing.JComboBox<String> runPageCombo;
     private javax.swing.JPanel schedAlgoPanel;
+    private javax.swing.JLabel schedLabel;
     private javax.swing.JPanel timePanel;
     // End of variables declaration//GEN-END:variables
 

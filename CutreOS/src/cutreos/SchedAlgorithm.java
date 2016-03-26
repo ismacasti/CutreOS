@@ -25,13 +25,10 @@ public abstract class SchedAlgorithm {
         this.sched = sched;
     }
 
-    static public String getName(){
-        return "Sched";
-    }
+    abstract String getName();
      //here all the scheduling happens
     abstract void tick();
 
-    abstract public int newProcess(Process P);
 
 
     abstract public int getQuantum();
@@ -45,7 +42,15 @@ public abstract class SchedAlgorithm {
                 list.addLast(p);
         }
         return list;
-        
+    }
+    
+    public LinkedList<Process> getReadyAndRunning(){
+        LinkedList<Process> list = new LinkedList<>();
+        for(Process p: allProcesses){
+            if(p.getCurrent() == Status.READY || p.getCurrent() == Status.RUNNING)
+                list.addLast(p);
+        }
+        return list;
     }
 
     public LinkedList<Process> getBlocked(){

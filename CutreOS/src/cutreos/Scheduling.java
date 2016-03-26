@@ -131,4 +131,16 @@ public class Scheduling {
         currentPaging.runPage(running, pageNumber);
     }
 
+    public void setSchedAlgorithm(SchedAlgorithm s) {
+        this.currentSched = s;
+    }
+    
+    public void runIdle(){
+        for(Process p: allProcesses){
+            if(p.isIdle()) p.setCurrent(Status.RUNNING);
+            else if(p.getCurrent() == Status.RUNNING)
+                p.setCurrent(Status.READY);
+        }
+    }
+
 }

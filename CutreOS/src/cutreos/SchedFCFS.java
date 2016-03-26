@@ -49,15 +49,10 @@ public class SchedFCFS extends SchedAlgorithm {
         this.running = earliest;
     }
 
-    static final public String getName(){
+    public String getName(){
         return "FCFS";
     }
 
-    @Override
-    public int newProcess(Process P) {
-        this.ready.addLast(P);
-        return (P.getPid());
-    }
 
     @Override
     public int getQuantum() {

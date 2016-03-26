@@ -92,6 +92,10 @@ public class Process {
     public int getRunning_time() {
         return this.running_time;
     }
+    
+    public int getRemaining_time(){
+        return expected_runtime-running_time;
+    }
 
     public void setRunning_time(int running_time) {
         this.running_time = running_time;
