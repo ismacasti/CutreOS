@@ -12,43 +12,18 @@ public class SchedFCFS extends SchedAlgorithm {
     LinkedList<Process> blocked;
     Process running;
 
-    public SchedFCFS(LinkedList<Process> allProcess, int time) {
-        super(allProcess, time);
+    public SchedFCFS(LinkedList<Process> allProcess, Scheduling sched) {
+        super(allProcess, sched);
     }
     
     public SchedFCFS(){
     }
 
-    @Override
-    public int getQuantum() {
-        return 0;
-    }
-
-    @Override
-    public void setQuantum(int quantum) {
-        //nothing, no quantum in FCFS
-    }
-
-    @Override
-    public LinkedList<Process> getReady() {
-        return this.ready;
-    }
-
-    @Override
-    public LinkedList<Process> getBlocked() {
-        return this.blocked;
-    }
-
-    @Override
-    public Process getRunning() {
-        return this.running;
-    }
-
-    @Override
-    public void tick(int time) {
-        if (this.running != null){
-            if (this.running.getExpected_runtime() < this.running.getRunning_time()) {
-                this.running.finishProcess();
+    public void tick() {
+        this.updateTimes();
+        if (this.getRunning() != null && !this.getRunning().isIdle()){
+            if (this.getRunning().getExpected_runtime() < this.getRunning().getRunning_time()) {
+                this.getRunning().finishProcess();
                 this.chooseNewProcess();
             }
         }else{
@@ -59,8 +34,8 @@ public class SchedFCFS extends SchedAlgorithm {
 
     private void chooseNewProcess(){
         Process earliest = null;
-        for(Process p: allProcess){
-            if (p.getCurrent() == Status.READY){
+        for(Process p: allProcesses){
+            if (p.getCurrent() == Status.READY && !p.isIdle()){
                 if (earliest == null){
                     earliest = p;
                 }else{
@@ -82,6 +57,16 @@ public class SchedFCFS extends SchedAlgorithm {
     public int newProcess(Process P) {
         this.ready.addLast(P);
         return (P.getPid());
+    }
+
+    @Override
+    public int getQuantum() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void setQuantum(int quantum) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 

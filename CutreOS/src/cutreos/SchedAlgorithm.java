@@ -1,5 +1,6 @@
 package cutreos;
 
+import cutreos.Process.Status;
 import static cutreos.Process.Status.BLOCKED;
 import static cutreos.Process.Status.NEW;
 import static cutreos.Process.Status.READY;
@@ -13,57 +14,71 @@ import java.util.logging.Logger;
 public abstract class SchedAlgorithm {
     private final static Logger logger = Logger.getLogger("kernel.scheduling.algo"); 
 
-    LinkedList<Process> allProcess;
-    int time;
+    LinkedList<Process> allProcesses;
+    Scheduling sched;
 
     public SchedAlgorithm(){
         //nothing, just for the name
     }
-    public SchedAlgorithm(LinkedList<Process> allProcess, int time) {
-        this.allProcess = allProcess;
+    public SchedAlgorithm(LinkedList<Process> allProcess, Scheduling sched) {
+        this.allProcesses = allProcess;
+        this.sched = sched;
     }
 
     static public String getName(){
         return "Sched";
     }
      //here all the scheduling happens
-    void tick(int time){
-        this.time++;
-        this.updateTimes();
-        //we put away the IDLE process
-        
-        
-        //we put from BLOCKED to READY process that 
-        //have finished its time in BLOCKED
-        for(Process proc: this.allProcess){
-            if(proc.current == BLOCKED && proc.getBlocked_until() == time){
-                proc.current = READY;
-            }
-        }
-    }
+    abstract void tick();
 
     abstract public int newProcess(Process P);
 
-    ;
 
     abstract public int getQuantum();
 
     abstract public void setQuantum(int quantum);
 
-    abstract public LinkedList<Process> getReady();
+    public LinkedList<Process> getReady(){
+        LinkedList<Process> list = new LinkedList<>();
+        for(Process p: allProcesses){
+            if(p.getCurrent() == Status.READY)
+                list.addLast(p);
+        }
+        return list;
+        
+    }
 
-    abstract public LinkedList<Process> getBlocked();
+    public LinkedList<Process> getBlocked(){
+        LinkedList<Process> list = new LinkedList<>();
+        for(Process p: allProcesses){
+            if(p.getCurrent() == Status.BLOCKED)
+                list.addLast(p);
+        }
+        return list;
+    }
 
-    abstract public Process getRunning();
+    public Process getRunning(){
+        return this.sched.getRunning();
+    }
 
     void updateTimes() {
-        for (Process p: this.allProcess) {
+        //put the IDLE process to ready
+        //we put from BLOCKED to READY process that 
+        //have finished its time in BLOCKED
+        for(Process proc: this.allProcesses){
+            if(proc.isIdle()) proc.setCurrent(Status.BLOCKED);
+            if(proc.current == BLOCKED && proc.getBlocked_until() <= this.sched.getTime()){
+                proc.current = READY;
+            }
+        }
+
+        for (Process p: this.allProcesses) {
             //update history values
             switch (p.getCurrent()) {
                 case FINISHED:
                     break;//nada
                 case NEW:
-                    if(time == p.getArriveTime()){
+                    if(this.sched.getTime() >= p.getArriveTime()){
                         p.setCurrent(p.getNext());
                     }
                     break;

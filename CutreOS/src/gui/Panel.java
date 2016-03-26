@@ -747,8 +747,8 @@ public class Panel extends javax.swing.JFrame {
     private void NewProcessCreateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NewProcessCreateButtonActionPerformed
         try{
             this.kernel.newProcess(this.newProcessNameText.getText(),
-                    (int) this.newProcessPagesSpinner.getValue(),
-                    Integer.parseInt(this.newProcessTotalExecutionText.getText()));
+                    Integer.parseInt(this.newProcessTotalExecutionText.getText()),
+                    (int) newProcessPagesSpinner.getValue());
         }catch(cutreos.OSisFullException e){
                 JOptionPane.showMessageDialog(Panel.this, "Operating system is full!\nProcess is not allowed to enter");
         }

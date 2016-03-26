@@ -18,6 +18,10 @@ public class Scheduling {
     
     private int time = 0;
 
+    public void setTime(int time) {
+        this.time = time;
+    }
+
     public int getTime() {
         return time;
     }
@@ -54,14 +58,14 @@ public class Scheduling {
     }
 
     public Scheduling() {
-        this.currentSched = new SchedFCFS(this.allProcesses, this.time);
+        this.currentSched = new SchedFCFS(this.allProcesses, this);
         
     }
 
     void tick() {
         this.time++;
         logger.info("New tick! Time = ".concat(Integer.toString(this.time)));
-        this.currentSched.tick(time);
+        this.currentSched.tick();
         if(this.getRunning() != null)
             logger.info("The running process is: ".concat(this.getRunning().getName()));
         else setRunningAsIdle();
@@ -108,7 +112,6 @@ public class Scheduling {
         try{
             Process idle = newProcess("[IDLE]", 0, 9999, Status.RUNNING);
             idle.setIdle(true);
-            allProcesses.addLast(idle);
             Page p = new Page();
             p.setArrive_time(0);
             p.setAccess_count(0);
