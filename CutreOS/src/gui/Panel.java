@@ -700,10 +700,14 @@ public class Panel extends javax.swing.JFrame {
         if (returnVal == JFileChooser.APPROVE_OPTION){
             File file = fc.getSelectedFile();
             Parser parser = new Parser(file.getAbsolutePath());
+            
+            
             LinkedList<ProcessParsed> procs = null;
             
             try{
                procs = parser.parse();
+               kernel.setMaxLoadedPages(parser.getMaxLoadedPages());
+
             }catch (IOException e){
                 System.out.println("Fuck");
                 System.exit(-1);

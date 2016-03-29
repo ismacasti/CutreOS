@@ -186,5 +186,11 @@ public class CutreOS {
         if(!running.isIdle()) running.resetNUR();
     }
 
+    public void setMaxLoadedPages(int maxLoadedPages) {
+        for(PagingAlgorithm algo: pagingList){
+            algo.setPage_limit(maxLoadedPages);
+        }
+    }
+
 
 }

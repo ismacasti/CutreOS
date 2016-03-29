@@ -28,10 +28,7 @@ public abstract class PagingAlgorithm {
     private final static Logger logger = Logger.getLogger("kernel.scheduling.paging"); 
 
     private static final int page_read_time = 5;
-    //we asume a process can only have 3 pages resident
-    //in main memory
-    //if necesary, the paging algorithm will swap out a page
-    private static final int page_limit = 3;
+    private int page_limit = 3;
     
     LinkedList<Process> allProcesses;
     Scheduling sched;
@@ -41,7 +38,6 @@ public abstract class PagingAlgorithm {
     }
 
     public PagingAlgorithm(Scheduling sched) {
-        this.allProcesses = allProcesses;
         this.sched = sched;
     }
     public void runPage(Process proc, int p){
@@ -88,4 +84,11 @@ public abstract class PagingAlgorithm {
     }
 
     abstract void swap(Process proc);
+
+    public void setPage_limit(int page_limit) {
+        this.page_limit = page_limit;
+    }
+    
+    
+    
 }

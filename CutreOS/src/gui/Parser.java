@@ -15,6 +15,7 @@ public class Parser {
     private final static Charset ENCODING = StandardCharsets.UTF_8;
 
     private final Path filePath;
+    private int maxLoadedPages = 0;
 
     public Parser (String filePath){
         this.filePath = Paths.get(filePath);
@@ -34,9 +35,10 @@ public class Parser {
     }
 
     public LinkedList<ProcessParsed> parse() throws IOException{
-        LinkedList<ProcessParsed> list = new LinkedList<ProcessParsed>();
+        LinkedList<ProcessParsed> list = new LinkedList<>();
         Scanner sc = new Scanner(this.filePath);
-        this.nextLine(sc); //we jump the first line
+        //get number of pages loaded
+        this.maxLoadedPages = Integer.parseInt(this.nextLine(sc));
         int ProcCount = Integer.parseInt(this.nextLine(sc)); //processes count
         for(int i = 0; i < ProcCount; i++){
             ProcessParsed p = new ProcessParsed();
@@ -61,5 +63,11 @@ public class Parser {
         }
         return list;
     }
+
+    public int getMaxLoadedPages() {
+        return maxLoadedPages;
+    }
+    
+    
 
 }
