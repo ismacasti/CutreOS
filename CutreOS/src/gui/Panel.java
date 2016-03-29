@@ -10,13 +10,17 @@ package gui;
 import cutreos.CutreOS;
 import cutreos.OSisFullException;
 import cutreos.Page;
+import java.awt.Component;
 import java.io.File;
 import java.io.IOException;
 import static java.util.Collections.list;
 import java.util.LinkedList;
 import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
+import javax.swing.JPopupMenu;
+import javax.swing.MenuElement;
 import javax.swing.table.DefaultTableModel;
 
 
@@ -73,6 +77,7 @@ public class Panel extends javax.swing.JFrame {
            ActualTimeRemainingQuantumText.setText("0");
         }
         updateTable(running.getPages());
+        this.updateMenus();
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -84,6 +89,9 @@ public class Panel extends javax.swing.JFrame {
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
 
+        readyBubbleMenu = new javax.swing.JPopupMenu();
+        runningBubbleMenu = new javax.swing.JPopupMenu();
+        blockedBubbleMenu = new javax.swing.JPopupMenu();
         leftPanel = new javax.swing.JPanel();
         timePanel = new javax.swing.JPanel();
         AddFileButton = new javax.swing.JButton();
@@ -104,6 +112,10 @@ public class Panel extends javax.swing.JFrame {
         runPageCombo = new javax.swing.JComboBox<>();
         runPageButton = new javax.swing.JButton();
         centerPanel = new javax.swing.JPanel();
+        bubblePanel = new javax.swing.JPanel();
+        readyBubble = new javax.swing.JButton();
+        runningBubble = new javax.swing.JButton();
+        blockedBubble = new javax.swing.JButton();
         pagesPanel = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         pageTable = new javax.swing.JTable();
@@ -133,7 +145,7 @@ public class Panel extends javax.swing.JFrame {
         setTitle("OS Simulator™ CutreOS© · I ❤ OS");
         getContentPane().setLayout(new java.awt.GridBagLayout());
 
-        leftPanel.setAlignmentX(0.0F);
+        leftPanel.setMinimumSize(new java.awt.Dimension(200, 400));
         leftPanel.setName("Current process"); // NOI18N
         leftPanel.setRequestFocusEnabled(false);
         leftPanel.setLayout(new javax.swing.BoxLayout(leftPanel, javax.swing.BoxLayout.Y_AXIS));
@@ -383,6 +395,48 @@ public class Panel extends javax.swing.JFrame {
         centerPanel.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
         centerPanel.setLayout(new javax.swing.BoxLayout(centerPanel, javax.swing.BoxLayout.PAGE_AXIS));
 
+        java.awt.FlowLayout flowLayout1 = new java.awt.FlowLayout();
+        flowLayout1.setAlignOnBaseline(true);
+        bubblePanel.setLayout(flowLayout1);
+
+        readyBubble.setBackground(new java.awt.Color(0, 204, 0));
+        readyBubble.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        readyBubble.setForeground(new java.awt.Color(0, 0, 0));
+        readyBubble.setText("Ready");
+        readyBubble.setPreferredSize(new java.awt.Dimension(100, 100));
+        readyBubble.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                readyBubbleActionPerformed(evt);
+            }
+        });
+        bubblePanel.add(readyBubble);
+
+        runningBubble.setBackground(new java.awt.Color(204, 0, 0));
+        runningBubble.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        runningBubble.setForeground(new java.awt.Color(0, 0, 0));
+        runningBubble.setText("Running");
+        runningBubble.setPreferredSize(new java.awt.Dimension(100, 100));
+        runningBubble.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                runningBubbleActionPerformed(evt);
+            }
+        });
+        bubblePanel.add(runningBubble);
+
+        blockedBubble.setBackground(new java.awt.Color(255, 255, 0));
+        blockedBubble.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        blockedBubble.setForeground(new java.awt.Color(0, 0, 0));
+        blockedBubble.setText("Blocked");
+        blockedBubble.setPreferredSize(new java.awt.Dimension(100, 100));
+        blockedBubble.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                blockedBubbleActionPerformed(evt);
+            }
+        });
+        bubblePanel.add(blockedBubble);
+
+        centerPanel.add(bubblePanel);
+
         pagesPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Current process page table"));
         pagesPanel.setLayout(new java.awt.BorderLayout());
 
@@ -440,6 +494,9 @@ public class Panel extends javax.swing.JFrame {
         gridBagConstraints.weighty = 1.0;
         getContentPane().add(centerPanel, gridBagConstraints);
 
+        rightPanel.setMinimumSize(new java.awt.Dimension(280, 500));
+        rightPanel.setName(""); // NOI18N
+        rightPanel.setPreferredSize(new java.awt.Dimension(300, 400));
         rightPanel.setLayout(new javax.swing.BoxLayout(rightPanel, javax.swing.BoxLayout.PAGE_AXIS));
 
         schedAlgoPanel.setBackground(new java.awt.Color(204, 204, 204));
@@ -469,13 +526,11 @@ public class Panel extends javax.swing.JFrame {
                     .addGroup(schedAlgoPanelLayout.createSequentialGroup()
                         .addGroup(schedAlgoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(CPUchangeAlgorithmButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addGroup(schedAlgoPanelLayout.createSequentialGroup()
-                                .addComponent(schedLabel)
-                                .addGap(0, 0, Short.MAX_VALUE)))
+                            .addComponent(schedLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addContainerGap())
                     .addGroup(schedAlgoPanelLayout.createSequentialGroup()
                         .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 104, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(Spinner, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(25, 25, 25))))
         );
@@ -483,9 +538,9 @@ public class Panel extends javax.swing.JFrame {
             schedAlgoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(schedAlgoPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(schedLabel)
+                .addComponent(schedLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(CPUchangeAlgorithmButton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(CPUchangeAlgorithmButton, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(schedAlgoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -502,6 +557,7 @@ public class Panel extends javax.swing.JFrame {
 
         MemorybitsResetNURButton.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         MemorybitsResetNURButton.setText("Bits Reset NUR");
+        MemorybitsResetNURButton.setOpaque(false);
         MemorybitsResetNURButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 bitsReset(evt);
@@ -527,22 +583,22 @@ public class Panel extends javax.swing.JFrame {
                 .addGroup(memAlgoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(memAlgoPanelLayout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(currentPagingAlgoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(currentPagingAlgoLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 246, Short.MAX_VALUE))
                     .addGroup(memAlgoPanelLayout.createSequentialGroup()
                         .addGap(51, 51, 51)
                         .addGroup(memAlgoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(MemorybitsResetNURButton, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(MemorychangeAlgorithmButton, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(MemorybitsResetNURButton, javax.swing.GroupLayout.DEFAULT_SIZE, 207, Short.MAX_VALUE)
+                            .addComponent(MemorychangeAlgorithmButton, javax.swing.GroupLayout.DEFAULT_SIZE, 207, Short.MAX_VALUE))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         memAlgoPanelLayout.setVerticalGroup(
             memAlgoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(memAlgoPanelLayout.createSequentialGroup()
-                .addComponent(currentPagingAlgoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(currentPagingAlgoLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 23, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(MemorychangeAlgorithmButton, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(MemorychangeAlgorithmButton, javax.swing.GroupLayout.DEFAULT_SIZE, 45, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(MemorybitsResetNURButton, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(MemorybitsResetNURButton, javax.swing.GroupLayout.DEFAULT_SIZE, 45, Short.MAX_VALUE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -557,7 +613,7 @@ public class Panel extends javax.swing.JFrame {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
         createProcessPanel.add(jLabel9, gridBagConstraints);
 
@@ -566,7 +622,7 @@ public class Panel extends javax.swing.JFrame {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
         createProcessPanel.add(jLabel10, gridBagConstraints);
 
@@ -575,12 +631,15 @@ public class Panel extends javax.swing.JFrame {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
         createProcessPanel.add(jLabel11, gridBagConstraints);
 
         NewProcessCreateButton.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         NewProcessCreateButton.setText("Create!");
+        NewProcessCreateButton.setMaximumSize(new java.awt.Dimension(150, 27));
+        NewProcessCreateButton.setMinimumSize(new java.awt.Dimension(150, 27));
+        NewProcessCreateButton.setPreferredSize(new java.awt.Dimension(200, 27));
         NewProcessCreateButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 NewProcessCreateButtonActionPerformed(evt);
@@ -590,14 +649,14 @@ public class Panel extends javax.swing.JFrame {
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 6;
         gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
-        gridBagConstraints.gridheight = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.gridheight = java.awt.GridBagConstraints.RELATIVE;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.ipadx = 200;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
         createProcessPanel.add(NewProcessCreateButton, gridBagConstraints);
         NewProcessCreateButton.getAccessibleContext().setAccessibleDescription("");
 
+        newProcessNameText.setMinimumSize(new java.awt.Dimension(100, 30));
+        newProcessNameText.setPreferredSize(new java.awt.Dimension(50, 21));
         newProcessNameText.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 newProcessNameTextActionPerformed(evt);
@@ -607,22 +666,24 @@ public class Panel extends javax.swing.JFrame {
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
-        gridBagConstraints.gridheight = java.awt.GridBagConstraints.REMAINDER;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
         createProcessPanel.add(newProcessNameText, gridBagConstraints);
 
         newProcessPagesSpinner.setModel(new javax.swing.SpinnerNumberModel(1, 1, 100, 1));
+        newProcessPagesSpinner.setMaximumSize(new java.awt.Dimension(2147483647, 2147483647));
+        newProcessPagesSpinner.setMinimumSize(new java.awt.Dimension(100, 30));
+        newProcessPagesSpinner.setPreferredSize(new java.awt.Dimension(50, 21));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
         createProcessPanel.add(newProcessPagesSpinner, gridBagConstraints);
 
+        newProcessTotalExecutionText.setMinimumSize(new java.awt.Dimension(100, 30));
+        newProcessTotalExecutionText.setPreferredSize(new java.awt.Dimension(50, 21));
         newProcessTotalExecutionText.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 newProcessTotalExecutionTextActionPerformed(evt);
@@ -633,7 +694,6 @@ public class Panel extends javax.swing.JFrame {
         gridBagConstraints.gridy = 2;
         gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
         createProcessPanel.add(newProcessTotalExecutionText, gridBagConstraints);
 
@@ -643,7 +703,7 @@ public class Panel extends javax.swing.JFrame {
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.gridheight = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
         getContentPane().add(rightPanel, gridBagConstraints);
 
@@ -750,6 +810,7 @@ public class Panel extends javax.swing.JFrame {
             this.kernel.newProcess(this.newProcessNameText.getText(),
                     Integer.parseInt(this.newProcessTotalExecutionText.getText()),
                     (int) newProcessPagesSpinner.getValue());
+                    NewProcessCreateButton.setText("Process created! New one?");
         }catch(cutreos.OSisFullException e){
                 JOptionPane.showMessageDialog(Panel.this, "Operating system is full!\nProcess is not allowed to enter");
         }
@@ -771,6 +832,20 @@ public class Panel extends javax.swing.JFrame {
             updateData();
         }
     }//GEN-LAST:event_runPageButtonActionPerformed
+
+    private void readyBubbleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_readyBubbleActionPerformed
+        Component e = (Component) evt.getSource();
+        readyBubbleMenu.show(e, 0,e.getHeight());
+    }//GEN-LAST:event_readyBubbleActionPerformed
+
+    private void runningBubbleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_runningBubbleActionPerformed
+        Component e = (Component) evt.getSource();
+        runningBubbleMenu.show(e, 0,e.getHeight());    }//GEN-LAST:event_runningBubbleActionPerformed
+
+    private void blockedBubbleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_blockedBubbleActionPerformed
+        Component e = (Component) evt.getSource();
+        blockedBubbleMenu.show(e, 0,e.getHeight());
+    }//GEN-LAST:event_blockedBubbleActionPerformed
 
     /**
      * @param args the command line arguments
@@ -819,6 +894,9 @@ public class Panel extends javax.swing.JFrame {
     private javax.swing.JButton MemorychangeAlgorithmButton;
     private javax.swing.JButton NewProcessCreateButton;
     private javax.swing.JSpinner Spinner;
+    private javax.swing.JButton blockedBubble;
+    private javax.swing.JPopupMenu blockedBubbleMenu;
+    private javax.swing.JPanel bubblePanel;
     private javax.swing.JPanel centerPanel;
     private javax.swing.JPanel createProcessPanel;
     private javax.swing.JLabel currentPagingAlgoLabel;
@@ -846,9 +924,13 @@ public class Panel extends javax.swing.JFrame {
     private javax.swing.JTextField newProcessTotalExecutionText;
     private javax.swing.JTable pageTable;
     private javax.swing.JPanel pagesPanel;
+    private javax.swing.JButton readyBubble;
+    private javax.swing.JPopupMenu readyBubbleMenu;
     private javax.swing.JPanel rightPanel;
     private javax.swing.JButton runPageButton;
     private javax.swing.JComboBox<String> runPageCombo;
+    private javax.swing.JButton runningBubble;
+    private javax.swing.JPopupMenu runningBubbleMenu;
     private javax.swing.JPanel schedAlgoPanel;
     private javax.swing.JLabel schedLabel;
     private javax.swing.JPanel timePanel;
@@ -878,4 +960,45 @@ public class Panel extends javax.swing.JFrame {
         }
             
     }
+
+    private void updateMenus() {
+        LinkedList<cutreos.Process> processList = kernel.getProcesses();
+        readyBubbleMenu.removeAll();
+        runningBubbleMenu.removeAll();
+        blockedBubbleMenu.removeAll();
+        this.addItemtoMenu(readyBubbleMenu, null);
+        this.addItemtoMenu(runningBubbleMenu, null);
+        this.addItemtoMenu(blockedBubbleMenu, null);
+        for(cutreos.Process p: processList){
+            if(p.isIdle()) continue;
+            switch(p.getCurrent()){
+                case RUNNING:
+                    this.addItemtoMenu(runningBubbleMenu, p);
+                    break;
+                case READY:
+                    this.addItemtoMenu(readyBubbleMenu, p);
+                    break;
+                case BLOCKED:
+                    this.addItemtoMenu(blockedBubbleMenu, p);
+                    break;
+            }
+        }
+    }
+
+    private void addItemtoMenu(JPopupMenu menu, cutreos.Process proc) {
+        JMenuItem item = new JMenuItem();
+        if(proc == null){
+            item.setText("(Empty)");
+            item.setEnabled(false);
+        }else{
+            for(MenuElement i: menu.getSubElements()){
+                JMenuItem old = (JMenuItem)i;
+                if(!old.isEnabled()) menu.remove(old);
+            }
+            item.setText(proc.getName());
+        }
+        menu.add(item);
+    }
+
+
 }
