@@ -27,6 +27,7 @@ public class PageFaultInterrupt extends Interrupt {
 
     @Override
     public void interrupt(Scheduling sched, Process proc) {
+        proc.setQuantum(0);
         sched.block(proc, page_read_time);
     }
 
