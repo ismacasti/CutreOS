@@ -143,4 +143,16 @@ public class Scheduling {
         }
     }
 
+    int getQuantum() {
+        return currentSched.getQuantum();
+    }
+
+    void setQuantum(Integer quantum) {
+        try{
+            currentSched.setQuantum(quantum);
+        }catch (java.lang.UnsupportedOperationException e){
+            //nothing
+        }
+    }
+
 }

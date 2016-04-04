@@ -66,6 +66,12 @@ public class Panel extends javax.swing.JFrame {
     private void updateData(){
         cutreos.Process running = kernel.getRunning();
         currentTimeText.setText(Integer.toString(kernel.getTime()));
+        try{
+            this.quantumSpinner.setValue(kernel.getQuantum());
+            this.quantumSpinner.setEnabled(true);
+        }catch(java.lang.UnsupportedOperationException e){
+            this.quantumSpinner.setEnabled(false);
+        }
         if(running == null){
             JOptionPane.showMessageDialog(Panel.this, "no running procceses.");
         }else{
@@ -74,7 +80,7 @@ public class Panel extends javax.swing.JFrame {
            ActualTimeAssignedCPUText.setText(Integer.toString(running.getRunning_time()));
            ActualTimeAgingText.setText(Integer.toString(running.getReady_time()));
            ActualTimeRemainingCPUText.setText(Integer.toString(running.getRemaining_time()));
-           ActualTimeRemainingQuantumText.setText("0");
+           ActualTimeRemainingQuantumText.setText(Integer.toString(running.getQuantum()));
         }
         updateTable(running.getPages());
         this.updateMenus();
@@ -124,10 +130,11 @@ public class Panel extends javax.swing.JFrame {
         interruptButton = new javax.swing.JButton();
         rightPanel = new javax.swing.JPanel();
         schedAlgoPanel = new javax.swing.JPanel();
+        updateQuantumButton = new javax.swing.JButton();
         schedLabel = new javax.swing.JLabel();
         CPUchangeAlgorithmButton = new javax.swing.JButton();
         jLabel7 = new javax.swing.JLabel();
-        Spinner = new javax.swing.JSpinner();
+        quantumSpinner = new javax.swing.JSpinner();
         memAlgoPanel = new javax.swing.JPanel();
         MemorybitsResetNURButton = new javax.swing.JButton();
         MemorychangeAlgorithmButton = new javax.swing.JButton();
@@ -502,6 +509,13 @@ public class Panel extends javax.swing.JFrame {
         schedAlgoPanel.setBackground(new java.awt.Color(204, 204, 204));
         schedAlgoPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("CPU"));
 
+        updateQuantumButton.setText("Go!");
+        updateQuantumButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                updateQuantumButtonActionPerformed(evt);
+            }
+        });
+
         schedLabel.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         schedLabel.setText("Mierda pura");
 
@@ -530,9 +544,11 @@ public class Panel extends javax.swing.JFrame {
                         .addContainerGap())
                     .addGroup(schedAlgoPanelLayout.createSequentialGroup()
                         .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(quantumSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(Spinner, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(25, 25, 25))))
+                        .addComponent(updateQuantumButton, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(28, 28, 28))))
         );
         schedAlgoPanelLayout.setVerticalGroup(
             schedAlgoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -542,11 +558,10 @@ public class Panel extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(CPUchangeAlgorithmButton, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(schedAlgoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(schedAlgoPanelLayout.createSequentialGroup()
-                        .addComponent(Spinner)
-                        .addGap(6, 6, 6))))
+                .addGroup(schedAlgoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, 26, Short.MAX_VALUE)
+                    .addComponent(quantumSpinner)
+                    .addComponent(updateQuantumButton)))
         );
 
         rightPanel.add(schedAlgoPanel);
@@ -750,6 +765,7 @@ public class Panel extends javax.swing.JFrame {
         if(this.schedAlgoIndex > schedAlgorithmList.size()-1)
             schedAlgoIndex = 0;
         kernel.setSchedAlgorithm(schedAlgorithmList.get(schedAlgoIndex));
+        updateData();
         getKernelAlgorithms();
     }//GEN-LAST:event_cpuChangeAlgorithm
 
@@ -847,6 +863,11 @@ public class Panel extends javax.swing.JFrame {
         blockedBubbleMenu.show(e, 0,e.getHeight());
     }//GEN-LAST:event_blockedBubbleActionPerformed
 
+    private void updateQuantumButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateQuantumButtonActionPerformed
+
+        kernel.setQuantum((Integer)this.quantumSpinner.getValue());
+    }//GEN-LAST:event_updateQuantumButtonActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -893,7 +914,6 @@ public class Panel extends javax.swing.JFrame {
     private javax.swing.JButton MemorybitsResetNURButton;
     private javax.swing.JButton MemorychangeAlgorithmButton;
     private javax.swing.JButton NewProcessCreateButton;
-    private javax.swing.JSpinner Spinner;
     private javax.swing.JButton blockedBubble;
     private javax.swing.JPopupMenu blockedBubbleMenu;
     private javax.swing.JPanel bubblePanel;
@@ -924,6 +944,7 @@ public class Panel extends javax.swing.JFrame {
     private javax.swing.JTextField newProcessTotalExecutionText;
     private javax.swing.JTable pageTable;
     private javax.swing.JPanel pagesPanel;
+    private javax.swing.JSpinner quantumSpinner;
     private javax.swing.JButton readyBubble;
     private javax.swing.JPopupMenu readyBubbleMenu;
     private javax.swing.JPanel rightPanel;
@@ -934,6 +955,7 @@ public class Panel extends javax.swing.JFrame {
     private javax.swing.JPanel schedAlgoPanel;
     private javax.swing.JLabel schedLabel;
     private javax.swing.JPanel timePanel;
+    private javax.swing.JButton updateQuantumButton;
     // End of variables declaration//GEN-END:variables
 
     private void updateTable(LinkedList<Page> pages) {

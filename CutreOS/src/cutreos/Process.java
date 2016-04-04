@@ -120,6 +120,7 @@ public class Process {
     }
 
     public void setCurrent(Status current) {
+        this.quantum = 0;
         this.current = current;
     }
 
