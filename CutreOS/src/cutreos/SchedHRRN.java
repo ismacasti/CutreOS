@@ -47,18 +47,20 @@ public class SchedHRRN extends SchedAlgorithm  {
                 continue;
             }
     
-                                            a=((double)(p.expected_runtime+p.intrXProceso))/((double)(p.instrXProceso));
-                                            b=((double)(p2.expected_runtime+pr.instrXProceso))/((double)(p2.instrXProceso));
-                                            if(a>=b){
-                                                if(p.acumInstrEjecutadas<p.instrXProceso&&p.getCurrent()==("ready"){
-                                                    pr=(DisenoProceso)listaDeProcesos.get(i);
-                                                }else{
-                                                    validaTerminados();
-    }
-                                            
-}
-    }
-    }
+                                           /*/Piority= (p.waiting+p.expected_runtime)/p.expected_runtime
+
+    }                                   
+        
+        for(Process p: allProcesses){
+            if (p.getCurrent() == Process.Status.READY && !p.isIdle()){
+                if (earliest == null){
+                    earliest = p;
+                    if(p.piority>p[x]){
+                        setCurrent(Process.Status.RUNNING);
+                    }
+
+    /*/
+        }}
     @Override
     public int getQuantum() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.

@@ -29,7 +29,7 @@ public class SchedSRT extends SchedAlgorithm{
     }
 
 @Override
-    void tick() {
+    void tick() { 
         this.updateTimes();
         Process shortestRemaining = null;
         for(Process p: getReadyAndRunning()){
