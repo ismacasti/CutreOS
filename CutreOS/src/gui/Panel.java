@@ -74,7 +74,7 @@ public class Panel extends javax.swing.JFrame {
            ActualTimeAssignedCPUText.setText(Integer.toString(running.getRunning_time()));
            ActualTimeAgingText.setText(Integer.toString(running.getReady_time()));
            ActualTimeRemainingCPUText.setText(Integer.toString(running.getRemaining_time()));
-           ActualTimeRemainingQuantumText.setText("0");
+           ActualTimeRemainingQuantumText.setText(Integer.toString(kernel.getRunning().getQuantum()));
         }
         updateTable(running.getPages());
         this.updateMenus();
@@ -127,7 +127,7 @@ public class Panel extends javax.swing.JFrame {
         schedLabel = new javax.swing.JLabel();
         CPUchangeAlgorithmButton = new javax.swing.JButton();
         jLabel7 = new javax.swing.JLabel();
-        Spinner = new javax.swing.JSpinner();
+        SpinnerQuantum = new javax.swing.JSpinner();
         memAlgoPanel = new javax.swing.JPanel();
         MemorybitsResetNURButton = new javax.swing.JButton();
         MemorychangeAlgorithmButton = new javax.swing.JButton();
@@ -516,6 +516,13 @@ public class Panel extends javax.swing.JFrame {
         jLabel7.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel7.setText("Quantum Temp");
 
+        SpinnerQuantum.setValue(5);
+        SpinnerQuantum.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                SpinnerQuantumStateChanged(evt);
+            }
+        });
+
         javax.swing.GroupLayout schedAlgoPanelLayout = new javax.swing.GroupLayout(schedAlgoPanel);
         schedAlgoPanel.setLayout(schedAlgoPanelLayout);
         schedAlgoPanelLayout.setHorizontalGroup(
@@ -531,7 +538,7 @@ public class Panel extends javax.swing.JFrame {
                     .addGroup(schedAlgoPanelLayout.createSequentialGroup()
                         .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(Spinner, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(SpinnerQuantum, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(25, 25, 25))))
         );
         schedAlgoPanelLayout.setVerticalGroup(
@@ -540,12 +547,12 @@ public class Panel extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(schedLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(CPUchangeAlgorithmButton, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
+                .addComponent(CPUchangeAlgorithmButton, javax.swing.GroupLayout.DEFAULT_SIZE, 36, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(schedAlgoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(schedAlgoPanelLayout.createSequentialGroup()
-                        .addComponent(Spinner)
+                        .addComponent(SpinnerQuantum)
                         .addGap(6, 6, 6))))
         );
 
@@ -557,7 +564,6 @@ public class Panel extends javax.swing.JFrame {
 
         MemorybitsResetNURButton.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         MemorybitsResetNURButton.setText("Bits Reset NUR");
-        MemorybitsResetNURButton.setOpaque(false);
         MemorybitsResetNURButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 bitsReset(evt);
@@ -574,35 +580,6 @@ public class Panel extends javax.swing.JFrame {
 
         currentPagingAlgoLabel.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         currentPagingAlgoLabel.setText("NUR");
-
-        javax.swing.GroupLayout memAlgoPanelLayout = new javax.swing.GroupLayout(memAlgoPanel);
-        memAlgoPanel.setLayout(memAlgoPanelLayout);
-        memAlgoPanelLayout.setHorizontalGroup(
-            memAlgoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(memAlgoPanelLayout.createSequentialGroup()
-                .addGroup(memAlgoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(memAlgoPanelLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(currentPagingAlgoLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 246, Short.MAX_VALUE))
-                    .addGroup(memAlgoPanelLayout.createSequentialGroup()
-                        .addGap(51, 51, 51)
-                        .addGroup(memAlgoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(MemorybitsResetNURButton, javax.swing.GroupLayout.DEFAULT_SIZE, 207, Short.MAX_VALUE)
-                            .addComponent(MemorychangeAlgorithmButton, javax.swing.GroupLayout.DEFAULT_SIZE, 207, Short.MAX_VALUE))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        memAlgoPanelLayout.setVerticalGroup(
-            memAlgoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(memAlgoPanelLayout.createSequentialGroup()
-                .addComponent(currentPagingAlgoLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 23, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(MemorychangeAlgorithmButton, javax.swing.GroupLayout.DEFAULT_SIZE, 45, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(MemorybitsResetNURButton, javax.swing.GroupLayout.DEFAULT_SIZE, 45, Short.MAX_VALUE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-
-        rightPanel.add(memAlgoPanel);
 
         createProcessPanel.setBackground(new java.awt.Color(204, 204, 204));
         createProcessPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("New process"));
@@ -697,7 +674,42 @@ public class Panel extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
         createProcessPanel.add(newProcessTotalExecutionText, gridBagConstraints);
 
-        rightPanel.add(createProcessPanel);
+        javax.swing.GroupLayout memAlgoPanelLayout = new javax.swing.GroupLayout(memAlgoPanel);
+        memAlgoPanel.setLayout(memAlgoPanelLayout);
+        memAlgoPanelLayout.setHorizontalGroup(
+            memAlgoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(memAlgoPanelLayout.createSequentialGroup()
+                .addGroup(memAlgoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(memAlgoPanelLayout.createSequentialGroup()
+                        .addGroup(memAlgoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(memAlgoPanelLayout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(currentPagingAlgoLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(memAlgoPanelLayout.createSequentialGroup()
+                                .addGap(51, 51, 51)
+                                .addGroup(memAlgoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(MemorybitsResetNURButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(MemorychangeAlgorithmButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, memAlgoPanelLayout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(createProcessPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
+        );
+        memAlgoPanelLayout.setVerticalGroup(
+            memAlgoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(memAlgoPanelLayout.createSequentialGroup()
+                .addComponent(currentPagingAlgoLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 19, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(MemorychangeAlgorithmButton, javax.swing.GroupLayout.DEFAULT_SIZE, 41, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(MemorybitsResetNURButton, javax.swing.GroupLayout.DEFAULT_SIZE, 39, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addComponent(createProcessPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 310, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        rightPanel.add(memAlgoPanel);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
@@ -847,6 +859,17 @@ public class Panel extends javax.swing.JFrame {
         blockedBubbleMenu.show(e, 0,e.getHeight());
     }//GEN-LAST:event_blockedBubbleActionPerformed
 
+    private void SpinnerQuantumStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_SpinnerQuantumStateChanged
+        // TODO add your handling code here:
+         int quantum=Integer.parseInt(SpinnerQuantum.getValue().toString());
+        kernel.Quantum=quantum;
+            LinkedList<cutreos.Process> processList = kernel.getProcesses();
+        for(cutreos.Process p: processList){
+            p.setQuantum(quantum);          
+        }
+        updateData();
+    }//GEN-LAST:event_SpinnerQuantumStateChanged
+
     /**
      * @param args the command line arguments
      */
@@ -893,7 +916,7 @@ public class Panel extends javax.swing.JFrame {
     private javax.swing.JButton MemorybitsResetNURButton;
     private javax.swing.JButton MemorychangeAlgorithmButton;
     private javax.swing.JButton NewProcessCreateButton;
-    private javax.swing.JSpinner Spinner;
+    private javax.swing.JSpinner SpinnerQuantum;
     private javax.swing.JButton blockedBubble;
     private javax.swing.JPopupMenu blockedBubbleMenu;
     private javax.swing.JPanel bubblePanel;

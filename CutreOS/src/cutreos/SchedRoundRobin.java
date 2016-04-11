@@ -33,13 +33,21 @@ public class SchedRoundRobin extends SchedAlgorithm{
     String getName() {
        return "Round Robin"; 
     }
-
-      public void tick() {
+    
+    
+@Override
+ public void tick() {
         this.updateTimes();
         if (this.getRunning() != null && !this.getRunning().isIdle()){
             if (this.getRunning().getExpected_runtime() < this.getRunning().getRunning_time()) {
                 this.getRunning().finishProcess();
                 this.chooseNewProcess();
+            }else{
+                if(this.getRunning().getQuantum()<=0){
+                    if(!this.getReady().isEmpty())
+                    this.getRunning().setCurrent(Status.READY);
+                    this.chooseNewProcess();
+                }
             }
         }else{
             this.chooseNewProcess();
@@ -50,19 +58,28 @@ public class SchedRoundRobin extends SchedAlgorithm{
     private void chooseNewProcess(){
         Process earliest = null;
         for(Process p: allProcesses){
-            if (p.getCurrent() == Process.Status.READY && !p.isIdle()){
-                if (earliest == null){
-                    earliest = p;
-                }else{
-                    if ((p.getArriveTime() < earliest.getArriveTime())&&(p.getQuantum()<earliest.getQuantum())){
+            if (p.getCurrent() == Status.READY && !p.isIdle()){
+                if (earliest == null && p.getQuantum() > 0)
+                    earliest = p; 
+                else{
+                    if(earliest!=null){
+                     if (p.getReady_time() > earliest.getReady_time()){
                         earliest = p;
-                    }
-                }
+                    }   
+                    }     
+                }       
+                if (p.getQuantum() <= 0)
+                    p.setQuantum(this.getReady().peekFirst().getQuantum());
             }
         }
-        if (earliest != null) earliest.setCurrent(Process.Status.RUNNING);
+        if (earliest != null) earliest.setCurrent(Status.RUNNING);
         this.running = earliest;
     }
+
+    
+    private void setQuantumRunning(int quantum){
+     this.getRunning().setQuantum(quantum);
+}
 
     @Override
     public int getQuantum() {

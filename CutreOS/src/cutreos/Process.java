@@ -20,7 +20,8 @@ public class Process {
     int last_running_time;
     int last_blocked_time;
     int last_ready_time;
-    int quantum = 0;
+    int quantum;
+    double HRRNPriority;
 
     public int getQuantum() {
         return quantum;
@@ -94,6 +95,11 @@ public class Process {
         return this.pid;
     }
 
+    public int getLast_ready_time() {
+        return last_ready_time;
+    }
+    
+
     public int getExpected_runtime() {
         return this.expected_runtime;
     }
@@ -130,6 +136,16 @@ public class Process {
     public void setReady_time(int t) {
         this.ready_time = t;
     }
+
+    public double getHRRNPriority() {
+        return HRRNPriority;
+    }
+
+    public void setHRRNPriority(double HRRNPriority) {
+        this.HRRNPriority = HRRNPriority;
+    }
+    
+    
 
     public LinkedList<Page> getPages() {
         return pages;

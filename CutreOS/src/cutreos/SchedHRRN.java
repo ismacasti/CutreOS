@@ -31,13 +31,16 @@ public class SchedHRRN extends SchedAlgorithm  {
     public SchedHRRN(LinkedList<Process> allProcess, Scheduling sched) {
             super(allProcess, sched);
     }
+    
+    
     @Override
     String getName() {
        return "HRRN";
     }
 
-    @Override
-    void tick() {
+  @Override
+    void tick() { 
+        int priority;
         this.updateTimes();
         Process shortestRemaining = null;
         for(Process p: getReadyAndRunning()){
@@ -46,21 +49,21 @@ public class SchedHRRN extends SchedAlgorithm  {
                 p.setCurrent(Process.Status.FINISHED);
                 continue;
             }
+            if(p.getCurrent()==Process.Status.RUNNING)
+                p.setReady_time(0);
+            priority=((p.getExpected_runtime()+p.getReady_time())/p.getExpected_runtime());
+            System.out.println(priority);
+            p.setHRRNPriority(priority);
+            if(shortestRemaining == null) shortestRemaining = p;
+            else if(p.getHRRNPriority() > shortestRemaining.getHRRNPriority()){
+                shortestRemaining.setCurrent(Process.Status.READY);
+                shortestRemaining = p;
+            }              
+            }
+        if(shortestRemaining != null) shortestRemaining.setCurrent(Process.Status.RUNNING);
+        else sched.runIdle();
+    }
     
-                                           /*/Piority= (p.waiting+p.expected_runtime)/p.expected_runtime
-
-    }                                   
-        
-        for(Process p: allProcesses){
-            if (p.getCurrent() == Process.Status.READY && !p.isIdle()){
-                if (earliest == null){
-                    earliest = p;
-                    if(p.piority>p[x]){
-                        setCurrent(Process.Status.RUNNING);
-                    }
-
-    /*/
-        }}
     @Override
     public int getQuantum() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.

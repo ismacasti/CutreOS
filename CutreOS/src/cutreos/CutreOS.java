@@ -20,6 +20,7 @@ public class CutreOS {
     private LinkedList<Interrupt> interruptList;
     private LinkedList<PagingAlgorithm> pagingList;
     private LinkedList<SchedAlgorithm> schedList;
+    public int Quantum;
 
     public LinkedList<String> getPagingList() {
         LinkedList<String> list = new LinkedList<>();
@@ -54,6 +55,9 @@ public class CutreOS {
         this.schedList = new LinkedList<>();
         schedList.add(new SchedFCFS(this.getProcesses(), this.sched));
         schedList.add(new SchedSRT(this.getProcesses(), this.sched));
+        schedList.add(new SchedSJF(this.getProcesses(), this.sched));
+        schedList.add(new SchedRoundRobin(this.getProcesses(), this.sched));
+        schedList.add(new SchedHRRN(this.getProcesses(), this.sched));
         
         sched.createIdleProcess();
         logger.log(Level.INFO, "Scheduling instance loaded");
@@ -191,6 +195,7 @@ public class CutreOS {
             algo.setPage_limit(maxLoadedPages);
         }
     }
-
+    
+    
 
 }

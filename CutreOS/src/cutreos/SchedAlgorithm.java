@@ -95,6 +95,7 @@ public abstract class SchedAlgorithm {
                     break;
                 case RUNNING:
                     p.setRunning_time(p.getRunning_time() + 1);
+                    p.setQuantum(p.getQuantum()-1);
                     break;
             }
         }

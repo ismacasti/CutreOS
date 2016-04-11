@@ -24,6 +24,10 @@ import java.util.LinkedList;
  */
 public class SchedSJF extends SchedAlgorithm {
     
+    LinkedList<Process> ready;
+    LinkedList<Process> blocked;
+    Process running;
+    
         public SchedSJF(LinkedList<Process> allProcess, Scheduling sched) {
             super(allProcess, sched);
     }
@@ -31,25 +35,38 @@ public class SchedSJF extends SchedAlgorithm {
 
     @Override
     String getName() {
-        return "SJT";
+        return "SJF";
     }
 
-    @Override
-   void tick() {
+    public void tick() {
         this.updateTimes();
-        Process shortestRemaining = null;
-        for(Process p: getReadyAndRunning()){
-            if(p.isIdle()) continue;
-            if(p.getRemaining_time() <= 0){
-                p.setCurrent(Process.Status.FINISHED);
-                continue;
+        if (this.getRunning() != null && !this.getRunning().isIdle()){
+            if (this.getRunning().getExpected_runtime() < this.getRunning().getRunning_time()) {
+                this.getRunning().finishProcess();
+                this.chooseNewProcess();
             }
-            if(shortestRemaining == null) shortestRemaining = p;
-            }
-        if(shortestRemaining != null) shortestRemaining.setCurrent(Process.Status.RUNNING);
-        else sched.runIdle();
+        }else{
+            this.chooseNewProcess();
+        }
+        
     }
-
+    
+      private void chooseNewProcess(){
+        Process earliest = null;
+        for(Process p: allProcesses){
+            if (p.getCurrent() == Process.Status.READY && !p.isIdle()){
+                if (earliest == null){
+                    earliest = p;
+                }else{
+                    if (p.getExpected_runtime() < earliest.getExpected_runtime()){
+                        earliest = p;
+                    }
+                }
+            }
+        }
+        if (earliest != null) earliest.setCurrent(Process.Status.RUNNING);
+        this.running = earliest;
+    }
 
     @Override
     public int getQuantum() {
